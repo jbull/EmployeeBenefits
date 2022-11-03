@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using AutoMapper;
 using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Models.Dto;
@@ -36,28 +30,61 @@ namespace EmployeeBenefits.Data.Repositories
         public async Task<EmployeeDto> GetEmployeeById(int id)
         {
             var employee = await _db.Employees.SingleOrDefaultAsync(x => x.Id == id);
+
             return _mapper.Map<EmployeeDto>(employee);
       
         }
 
         public async Task<EmployeeDto> GetEmployee(Expression<Func<Employee, bool>> predicate)
         {
-            var 
+            var employee = await _db.Employees.FindAsync(predicate);
+
+            return _mapper.Map<EmployeeDto>(employee);
         }
 
-        public IEnumerable<EmployeeDto> FindEmployees(Expression<Func<Employee, bool>> predicate)
+        public async Task<IEnumerable<EmployeeDto>> FindEmployees(Expression<Func<Employee, bool>> predicate)
         {
-            throw new NotImplementedException();
+            var employees = await _db.Employees.ToListAsync();
+
+            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
         }
 
-        public async Task<EmployeeDto> AddOrUpdateEmployee(Employee entity)
+        public async Task<EmployeeDto> AddOrUpdateEmployee(EmployeeDto employeeDto)
         {
-            throw new NotImplementedException();
+            var employee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
+
+            if(employee.Id > 0)
+            {
+                _db.Employees.Update(employee);
+            }
+            else
+            {
+                _db.Employees.Add(employee);
+            }
+
+            await _db.SaveChangesAsync();
+
+            return _mapper.Map<EmployeeDto>(employee);
         }
 
         public async Task<bool> DeleteEmployee(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var employee = await _db.Employees.FirstOrDefaultAsync(x => x.Id == id);
+                if (employee == null)
+                {
+                    return false;
+                }
+
+                _db.Employees.Remove(employee);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

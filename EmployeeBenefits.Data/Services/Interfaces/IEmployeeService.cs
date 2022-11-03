@@ -1,28 +1,21 @@
 ﻿using System.Linq.Expressions;
 using EmployeeBenefits.Data.Models;
+using EmployeeBenefits.Data.Models.Dto;
 
 namespace EmployeeBenefits.Data.Services.Interfaces
 {
     public interface IEmployeeService
     {
-        void Add(Employee entity);
+        Task<EmployeeDto> AddOrUpdateEmployee(EmployeeDto entity);
 
-        void AddRange(IEnumerable<Employee> entities);
+        Task<bool> DeleteEmployee(int id);
 
-        void Update(Employee entity);
-
-        void UpdateRange(IEnumerable<Employee> entities);
-
-        void Remove(int id);
-
-        int Count();
-
-        IEnumerable<Employee> Find(Expression<Func<Employee, bool>> predicate);
+        Task<IEnumerable<Employee>> FindEmployees(Expression<Func<Employee, bool>> predicate);
 
         Task<Employee> GetSingleOrDefault(Expression<Func<Employee, bool>> predicate);
 
-        Task<Employee> GetAsync(int id);
+        Task<Employee> GetEmployeeBy(int id);
 
-        Task<List<Employee>> GetAllAsync();
+        Task<List<Employee>> GetAllEmployees();
     }
 }
