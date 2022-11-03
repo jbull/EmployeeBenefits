@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefits.Api", "EmployeeBenefits\EmployeeBenefits.Api.csproj", "{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefits.Data", "EmployeeBenefits.Data\EmployeeBenefits.Data.csproj", "{252F33FC-F7B4-4943-ADCC-90386B729520}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{252F33FC-F7B4-4943-ADCC-90386B729520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{252F33FC-F7B4-4943-ADCC-90386B729520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{252F33FC-F7B4-4943-ADCC-90386B729520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{252F33FC-F7B4-4943-ADCC-90386B729520}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19B827CA-FF61-4032-8D82-693354F6E258}
+	EndGlobalSection
+EndGlobal
