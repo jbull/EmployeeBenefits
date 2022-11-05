@@ -11,47 +11,44 @@ namespace EmployeeBenefits.Data.Repositories
     {
         private readonly ApplicationDbContext _db;
 
-        private readonly IMapper _mapper;
-
-        public EmployeeRepository(ApplicationDbContext db, IMapper mapper)
+        public EmployeeRepository(ApplicationDbContext db)
         {
             _db = db;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetEmployees()
+        public async Task<IEnumerable<Employee>> GetEmployees()
         {
             IEnumerable<Employee> employees = await _db.Employees.ToListAsync();
 
-            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employees; // _mapper.Map<IEnumerable<EmployeeDto>>(employees);
 
         }
 
-        public async Task<EmployeeDto> GetEmployeeById(int id)
+        public async Task<Employee> GetEmployeeById(int id)
         {
             var employee = await _db.Employees.SingleOrDefaultAsync(x => x.Id == id);
 
-            return _mapper.Map<EmployeeDto>(employee);
+            return employee; // _mapper.Map<EmployeeDto>(employee);
       
         }
 
-        public async Task<EmployeeDto> GetEmployee(Expression<Func<Employee, bool>> predicate)
+        public async Task<Employee> GetEmployee(Expression<Func<Employee, bool>> predicate)
         {
             var employee = await _db.Employees.FindAsync(predicate);
 
-            return _mapper.Map<EmployeeDto>(employee);
+            return employee; // _mapper.Map<EmployeeDto>(employee);
         }
 
-        public async Task<IEnumerable<EmployeeDto>> FindEmployees(Expression<Func<Employee, bool>> predicate)
+        public async Task<IEnumerable<Employee>> FindEmployees(Expression<Func<Employee, bool>> predicate)
         {
             var employees = await _db.Employees.ToListAsync();
 
-            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employees; // _mapper.Map<IEnumerable<EmployeeDto>>(employees);
         }
 
-        public async Task<EmployeeDto> AddOrUpdateEmployee(EmployeeDto employeeDto)
+        public async Task<Employee> AddOrUpdateEmployee(Employee employee)
         {
-            var employee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
+            //var employee = _mapper.Map<EmployeeDto, Employee>(employee);
 
             if(employee.Id > 0)
             {
@@ -64,7 +61,7 @@ namespace EmployeeBenefits.Data.Repositories
 
             await _db.SaveChangesAsync();
 
-            return _mapper.Map<EmployeeDto>(employee);
+            return employee; // _mapper.Map<EmployeeDto>(employee);
         }
 
         public async Task<bool> DeleteEmployee(int id)

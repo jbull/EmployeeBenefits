@@ -1,7 +1,5 @@
 using EmployeeBenefits.Data.Repositories;
 using EmployeeBenefits.Data.Repositories.Interfaces;
-using EmployeeBenefits.Data.Services;
-using EmployeeBenefits.Data.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using EmployeeBenefits.Data.Models.Mapping;
@@ -18,9 +16,12 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -31,15 +32,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
+
+
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
 app.UseRouting();
 
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html"); ;
+app.MapControllers();
 
 app.Run();

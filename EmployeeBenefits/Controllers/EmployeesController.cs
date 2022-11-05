@@ -1,113 +1,134 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EmployeeBenefits.Api.Data;
 using EmployeeBenefits.Data.Models;
-using EmployeeBenefits.Data.Services.Interfaces;
-using Microsoft.Extensions.Options;
+using EmployeeBenefits.Data.Repositories.Interfaces;
+using EmployeeBenefits.Data.Models.Dto;
 
 namespace EmployeeBenefits.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/employees")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<EmployeesController> _logger;
 
-        public EmployeesController(IEmployeeService employeeService)
+        public EmployeesController(IMapper mapper, ILogger<EmployeesController> logger, IEmployeeRepository employeeRepository)
         {
-            _employeeService = employeeService;
+            _employeeRepository = employeeRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployees()
         {
-            return await _context.Employee.ToListAsync();
+            try
+            {
+                var employees = await _employeeRepository.GetEmployees();
+
+                var empsToReturn = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+
+                return Ok(empsToReturn);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         // GET: api/Employees/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<EmployeeDto>> GetEmployee(int id)
         {
-            var employee = await _context.Employee.FindAsync(id);
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return employee;
-        }
-
-        // PUT: api/Employees/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
-        {
-            if (id != employee.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(employee).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
+                var employee = await _employeeRepository.GetEmployeeById(id);
+
+                if (employee == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+
+                var empToReturn = _mapper.Map<EmployeeDto>(employee);
+
+                return Ok(empToReturn);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
+                throw;
             }
 
-            return NoContent();
         }
 
         // POST: api/Employees
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<Employee>> AddEmployee([FromBody] EmployeeDto employeeDto)
         {
-            _context.Employee.Add(employee);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var employee = _mapper.Map<Employee>(employeeDto);
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+                var result = await _employeeRepository.AddOrUpdateEmployee(employee);
+
+                var empToReturn = _mapper.Map<EmployeeDto>(employee);
+
+                return CreatedAtAction("GetEmployee", new { id = empToReturn.EmployeeId }, empToReturn);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
+
+        // PUT: api/Employees/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeDto employeeDto)
+        {
+            if (id != employeeDto.EmployeeId)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var employee = _mapper.Map<Employee>(employeeDto);
+
+                var result = await _employeeRepository.AddOrUpdateEmployee(employee);
+
+                var empToReturn = _mapper.Map<EmployeeDto>(employee);
+
+                return CreatedAtAction("GetEmployee", new { id = empToReturn.EmployeeId }, empToReturn);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var employee = await _context.Employee.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            _context.Employee.Remove(employee);
-            await _context.SaveChangesAsync();
+            var result = await _employeeRepository.DeleteEmployee(id);
 
             return NoContent();
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employee.Any(e => e.Id == id);
         }
     }
 }
