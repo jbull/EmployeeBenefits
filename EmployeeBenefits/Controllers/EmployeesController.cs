@@ -81,7 +81,7 @@ namespace EmployeeBenefits.Api.Controllers
 
                 var empToReturn = _mapper.Map<EmployeeDto>(employee);
 
-                return CreatedAtAction("GetEmployee", new { id = empToReturn.EmployeeId }, empToReturn);
+                return CreatedAtAction("GetEmployee", new { id = empToReturn.Id }, empToReturn);
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@ namespace EmployeeBenefits.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeDto employeeDto)
         {
-            if (id != employeeDto.EmployeeId)
+            if (id != employeeDto.Id)
             {
                 return BadRequest();
             }
@@ -110,7 +110,7 @@ namespace EmployeeBenefits.Api.Controllers
 
                 var empToReturn = _mapper.Map<EmployeeDto>(employee);
 
-                return CreatedAtAction("GetEmployee", new { id = empToReturn.EmployeeId }, empToReturn);
+                return CreatedAtAction("GetEmployee", new { id = empToReturn.Id }, empToReturn);
             }
             catch (Exception e)
             {

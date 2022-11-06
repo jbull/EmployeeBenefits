@@ -10,6 +10,7 @@ namespace EmployeeBenefits.Data.Models.Mapping
             var mappingConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<EmployeeDto, Employee>();
+                config.CreateMap<Employee, EmployeeDto>();
             });
 
             return mappingConfig;

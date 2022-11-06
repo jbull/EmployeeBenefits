@@ -1,17 +1,13 @@
 ﻿namespace EmployeeBenefits.Data.Models.Dto
 {
-    public class EmployeeDto
+    public class DependentDto
     {
         public int Id { get; set; }
+
+        public int EmployeeId { get; set; }
 
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
-
-        public List<DependentDto>? Dependents { get; set; }
-
-        public decimal MonthlyCost { get; set; }
-
-        public decimal YearlyCost { get; set; }
     }
 }
