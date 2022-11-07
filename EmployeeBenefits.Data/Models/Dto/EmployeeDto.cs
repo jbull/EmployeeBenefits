@@ -8,7 +8,7 @@
 
         public string? LastName { get; set; }
 
-        public List<DependentDto>? Dependents { get; set; }
+        public List<DependentDto> Dependents { get; set; } = new List<DependentDto>();
 
         public decimal MonthlyCost { get; set; }
 

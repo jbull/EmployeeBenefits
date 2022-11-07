@@ -1,0 +1,47 @@
+<div class="container-fluid">
+
+    <div class="row">
+      <div class="col-12 p-3">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+          <h4 class="mb-0 font-size-18">Employees</h4>
+          <button mat-button (click)="editEmployee()" mat-flat-button color="primary">Add</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="table-box-shadow">
+      <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
+  
+      <mat-table class="rows-table mat-elevation-z8" [dataSource]="dataSource">
+  
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.lastName}}</mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.firstName}}</mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let employee"  fxFlex>
+              <button mat-button color="primary" matTooltip="Edit Employee" (click)="editEmployee(employee)"></button>
+              <button mat-button color="warn" matTooltip="Delete Employee" (click)="deleteEmployee(employee)"></button>
+            </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  
+      </mat-table>
+  
+    </div>
+  </div>

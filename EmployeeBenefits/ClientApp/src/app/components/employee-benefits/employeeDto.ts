@@ -7,6 +7,12 @@ export interface EmployeeDto {
     yearlyCost: Number;
 }
 
+export class Employee {
+    id:Number = 0;
+    firstName?: string;
+    lastName?: string;
+}
+
 export interface DependentDto {
     id:Number;
     employeeId: Number;
