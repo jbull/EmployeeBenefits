@@ -1,21 +1,21 @@
 export interface EmployeeDto {
-    id:Number;
+    id: number;
     firstName: string;
     lastName: string;
     dependents: DependentDto[];
-    monthlyCost: Number;
-    yearlyCost: Number;
+    monthlyCost: number;
+    yearlyCost: number;
 }
 
 export class Employee {
-    id:Number = 0;
+    id: number = 0;
     firstName?: string;
     lastName?: string;
 }
 
 export interface DependentDto {
-    id:Number;
-    employeeId: Number;
+    id: number;
+    employeeId: number;
     firstName: string;
     lastName: string;
 }

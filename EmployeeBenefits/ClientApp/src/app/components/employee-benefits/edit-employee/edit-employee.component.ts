@@ -81,9 +81,9 @@ export class EditEmployeeComponent implements OnInit {
     const formModel = this.employeeForm.value;
 
     return {
-      id: formModel.id,
+      id: this.employee.id,
       firstName: formModel.firstName,
-      lastName: formModel.LastName,
+      lastName: formModel.lastName,
       monthlyCost: 0,
       yearlyCost: 0,
       dependents:[]

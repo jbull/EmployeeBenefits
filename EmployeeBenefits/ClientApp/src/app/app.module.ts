@@ -54,8 +54,9 @@ import { EditEmployeeComponent } from './components/employee-benefits/edit-emplo
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'employees', component: EmployeeListComponent },
-      { path: 'edit-employee', component: EditEmployeeComponent }
+      { path: 'employee-list', component: EmployeeListComponent },
+      { path: 'edit-employee', component: EditEmployeeComponent },
+      { path: 'edit-employee/:id', component: EditEmployeeComponent }
     ]),
 
     BrowserAnimationsModule
