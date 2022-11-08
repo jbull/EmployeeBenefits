@@ -4,6 +4,7 @@ using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
+using EmployeeBenefits.Data.Services.Interfaces;
 
 namespace EmployeeBenefits.Api.Controllers
 {
@@ -14,12 +15,15 @@ namespace EmployeeBenefits.Api.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<EmployeesController> _logger;
+        private readonly IBenefitService _benefitService;
 
-        public EmployeesController(IMapper mapper, ILogger<EmployeesController> logger, IEmployeeRepository employeeRepository)
+        public EmployeesController(IMapper mapper, ILogger<EmployeesController> logger, 
+            IEmployeeRepository employeeRepository, IBenefitService benefitService)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _logger = logger;
+            _benefitService = benefitService;
         }
 
         // GET: api/Employees
@@ -57,6 +61,11 @@ namespace EmployeeBenefits.Api.Controllers
                 }
 
                 var empToReturn = _mapper.Map<EmployeeDto>(employee);
+
+                var benefits = await _benefitService.GetBenefitsCost(employee.Id);
+
+                empToReturn.YearlyCost = benefits.YearlyCost;
+                empToReturn.MonthlyCost = benefits.MonthlyCost;
 
                 return Ok(empToReturn);
             }

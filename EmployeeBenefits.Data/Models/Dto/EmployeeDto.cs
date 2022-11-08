@@ -10,8 +10,8 @@
 
         public List<DependentDto> Dependents { get; set; } = new List<DependentDto>();
 
-        public decimal MonthlyCost { get; set; }
+        public double MonthlyCost { get; set; }
 
-        public decimal YearlyCost { get; set; }
+        public double YearlyCost { get; set; }
     }
 }
