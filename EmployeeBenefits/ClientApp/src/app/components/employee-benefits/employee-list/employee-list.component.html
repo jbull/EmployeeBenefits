@@ -4,12 +4,12 @@
       <div class="col-12 p-3">
         <div class="page-title-box d-flex align-items-center justify-content-between">
           <h4 class="mb-0 font-size-18">Employees</h4>
-          <button mat-button (click)="editEmployee()" mat-flat-button color="primary">Add</button>
+          <button mat-flat-button (click)="editEmployee()" color="primary">Add</button>
         </div>
       </div>
     </div>
     
-    <div class="table-box-shadow">
+    <div class="table table-striped">
       <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
   
       <mat-table class="rows-table mat-elevation-z8" [dataSource]="dataSource">
@@ -31,9 +31,10 @@
   
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-            <mat-cell *matCellDef="let employee"  fxFlex>
-              <button mat-button color="primary" matTooltip="Edit Employee" (click)="editEmployee(employee)"></button>
-              <button mat-button color="warn" matTooltip="Delete Employee" (click)="deleteEmployee(employee)"></button>
+            <mat-cell *matCellDef="let employee" fxFlex>
+              <!-- <button mat-flat-button color="primary" class="action-first" (click)="editDependents(employee.id)">Dependents</button> -->
+              <button mat-flat-button color="primary" class="action-first" (click)="editEmployee(employee.id)">Edit</button>
+              <button mat-flat-button color="warn"  (click)="deleteEmployee(employee)">Delete</button>
             </mat-cell>
         </ng-container>
   

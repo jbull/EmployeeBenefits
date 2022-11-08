@@ -23,6 +23,8 @@ import { EmployeeListComponent } from './components/employee-benefits/employee-l
 import { EmployeeService } from './components/employee-benefits/employee.service';
 import { EmployeeEndpoint } from './components/employee-benefits/employee-endpoint';
 import { EditEmployeeComponent } from './components/employee-benefits/edit-employee/edit-employee.component';
+import { MatButtonModule } from '@angular/material/button';
+import { EmployeeDependentsComponent } from './components/employee-benefits/employee-dependents/employee-dependents.component';
 
 @NgModule({
   declarations: [	
@@ -32,7 +34,8 @@ import { EditEmployeeComponent } from './components/employee-benefits/edit-emplo
     CounterComponent,
     FetchDataComponent,
     EmployeeListComponent,
-    EditEmployeeComponent
+    EditEmployeeComponent,
+    EmployeeDependentsComponent
    ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,6 +52,7 @@ import { EditEmployeeComponent } from './components/employee-benefits/edit-emplo
     MatProgressBarModule,
     MatFormFieldModule,
     MatIconModule,
+    MatButtonModule,
 
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -56,7 +60,8 @@ import { EditEmployeeComponent } from './components/employee-benefits/edit-emplo
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'employee-list', component: EmployeeListComponent },
       { path: 'edit-employee', component: EditEmployeeComponent },
-      { path: 'edit-employee/:id', component: EditEmployeeComponent }
+      { path: 'edit-employee/:id', component: EditEmployeeComponent },
+      { path: 'employee-dependents/:id', component: EmployeeDependentsComponent }
     ]),
 
     BrowserAnimationsModule

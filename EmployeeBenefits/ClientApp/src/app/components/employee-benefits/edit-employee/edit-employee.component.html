@@ -1,23 +1,29 @@
-<div class="pt-3 pb-2 mb-3 border-bottom">
-  <h2 class="h2">Add Employee</h2>
-</div>
+<div class="container-fluid">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">Add Employee</h2>
+  </div>
 
 
-<form  [formGroup]="employeeForm" (ngSubmit)="save()">
+  <form  [formGroup]="employeeForm" (ngSubmit)="save()">
 
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-    <mat-form-field>
-      <mat-label>First Name</mat-label>
-      <input matInput formControlName="firstName" maxlength="50"/>
-    </mat-form-field>
-   </div>
-
-   <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-    <mat-form-field>
-      <mat-label>Last Name</mat-label>
-      <input matInput formControlName="lastName" maxlength="50"/>
-    </mat-form-field>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" maxlength="50"/>
+      </mat-form-field>
     </div>
 
-    <button type="submit" color="primary">Save</button>
-</form>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" maxlength="50"/>
+      </mat-form-field>
+      </div>
+
+      <button type="submit" color="primary">Save</button>
+  </form>
+
+  <div class="">
+    <app-employee-dependents [employee]="employee"></app-employee-dependents>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">Add Dependent</h2>
+  </div>
+
+
+  <form  [formGroup]="dependentForm" (ngSubmit)="save()">
+
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" maxlength="50"/>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" maxlength="50"/>
+      </mat-form-field>
+
+      <button type="submit" color="primary">Add</button>
+
+    </div>
+
+    <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" maxlength="50"/>
+      </mat-form-field>
+    </div> -->
+
+      <!-- <button type="submit" color="primary">Add</button> -->
+  </form>
+
+
+  <div class="table-box-shadow">
+    <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
+
+    <mat-table class="rows-table mat-elevation-z8" [dataSource]="dataSource">
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.lastName}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.firstName}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+          <mat-cell *matCellDef="let dependent" fxFlex>
+            <button mat-flat-button color="warn"  (click)="deleteDependent(dependent.id)">Delete</button>
+          </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
+
+  </div>
+
+</div>

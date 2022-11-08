@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
-import { EmployeeDto } from '../employeeDto';
+import { EmployeeDto } from '../employee.models';
 
 @Component({
   selector: 'app-employee-list',
@@ -17,11 +17,11 @@ export class EmployeeListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   
-  displayedColumns = ['id','lastName', 'firstName'];
+  displayedColumns = ['id','lastName', 'firstName', 'actions'];
   loadingIndicator: boolean = false;
   dataSource : MatTableDataSource<EmployeeDto>;
 
-  constructor(private employeeBenefitsService: EmployeeService,
+  constructor(private employeeService: EmployeeService,
     private router: Router) { 
 
     this.dataSource = new MatTableDataSource();
@@ -31,14 +31,14 @@ export class EmployeeListComponent implements OnInit {
     this.loadData();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource.sort = this.sort;
+  // }
 
   private loadData() {
     this.loadingIndicator = true;
-    this.employeeBenefitsService.getEmployees().subscribe(
+    this.employeeService.getEmployees().subscribe(
       employees => this.onDataLoadSuccessful(employees),
       error => this.onDataLoadFailed(error)
     );
@@ -58,16 +58,16 @@ export class EmployeeListComponent implements OnInit {
     this.dataSource.data = employees;
   }
   
-  public editEmployee (employee?: EmployeeDto){
-    this.router.navigateByUrl("edit-employee")
+  public editEmployee (id?: number){
+    this.router.navigate([`edit-employee/${id}`]);
   }
 
-  public updateProject(employee: EmployeeDto) {
-    
+  public editDependents(id?: number){
+    this.router.navigate([`employee-dependents/${id}`]);
   }
 
   public deleteEmployee (employee?: EmployeeDto){
-
+    // TODO:
   }
 }
 

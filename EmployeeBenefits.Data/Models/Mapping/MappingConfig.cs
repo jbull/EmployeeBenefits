@@ -11,6 +11,9 @@ namespace EmployeeBenefits.Data.Models.Mapping
             {
                 config.CreateMap<EmployeeDto, Employee>();
                 config.CreateMap<Employee, EmployeeDto>();
+
+                config.CreateMap<DependentDto, Dependent>();
+                config.CreateMap<Dependent, DependentDto>();
             });
 
             return mappingConfig;

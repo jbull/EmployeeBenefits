@@ -2,7 +2,7 @@ import { Component, Input, isDevMode, OnInit, ViewChild, AfterViewInit, } from '
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
-import { Employee, EmployeeDto } from '../employeeDto';
+import { Employee, EmployeeDto } from '../employee.models';
 
 @Component({
   selector: 'app-edit-employee',
@@ -13,67 +13,66 @@ export class EditEmployeeComponent implements OnInit {
 
   employeeForm!: FormGroup;
   employee: Employee = new Employee;
-  employeeId!: Number;
+
   isNewEmployee = true;
 
   constructor(private employeeService: EmployeeService, 
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute) {
-      this.route.params.subscribe(
-        (params) => (this.employeeId = parseInt(params.id))
-      );
-     }
+    
+  }
 
   ngOnInit() {
-    this.getEmployee();
+    this.route.params.subscribe(
+      (params) => {
+        let id = parseInt(params.id);
+        this.getEmployee(id);
+      }
+    );
+
     this.buildForm();
   }
 
   private buildForm() {
     this.employeeForm = this.formBuilder.group({
       id:[''],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', Validators.required, Validators.maxLength(50)],
+      lastName: ['', Validators.required, Validators.maxLength(50)],
       monthlyCost: [''],
       yearlyCost: [''],
       dependents: [''],
     });
   }
 
-  getEmployee(){
-    if(this.employeeId != null)
+  getEmployee(id: number){
     this.employeeService
-    .getEmployee(this.employeeId)
+    .getEmployee(id)
     .subscribe((employee: Employee) => {
       this.employee = employee;
       this.patchEmployeeForm();
     });
   }
 
-  
   patchEmployeeForm(){
     this.employeeForm.patchValue({
       id: this.employee.id,
       firstName: this.employee.firstName,
       lastName: this.employee.lastName,
     });
-  
   }
 
-
   public save() {
-
-    const editedEmplloyee = this.getEmployeeModel();
+    const model = this.getEmployeeModel();
 
     if (this.isNewEmployee) {
-      this.employeeService.newEmployee(editedEmplloyee).subscribe(
+      this.employeeService.newEmployee(model).subscribe(
         emp => this.saveCompleted(emp),
-        error => this.saveFailed(error));
+        error => this.onSaveFailed(error));
     } else {
-      this.employeeService.updateEmployee(editedEmplloyee).subscribe(
-        () => this.saveCompleted(editedEmplloyee),
-        error => this.saveFailed(error));
+      this.employeeService.updateEmployee(model).subscribe(
+        () => this.saveCompleted(model),
+        error => this.onSaveFailed(error));
     }
   }
 
@@ -101,7 +100,7 @@ export class EditEmployeeComponent implements OnInit {
     this.router.navigateByUrl("employee-list")
   }
 
-  private saveFailed(error: any) {
+  private onSaveFailed(error: any) {
     if(isDevMode())
       console.log(error)
   }

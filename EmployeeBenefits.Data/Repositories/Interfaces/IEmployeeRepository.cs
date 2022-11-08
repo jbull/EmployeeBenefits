@@ -22,5 +22,11 @@ namespace EmployeeBenefits.Data.Repositories.Interfaces
         Task<Employee> AddOrUpdateEmployee(Employee employee);
 
         Task<bool> DeleteEmployee(int id);
+
+        Task<IEnumerable<Dependent>> GetDependents(int id);
+
+        Task<Dependent> AddOrUpdateDependent(Dependent dependent);
+
+        Task<bool> DeleteDependent(int id);
     }
 }

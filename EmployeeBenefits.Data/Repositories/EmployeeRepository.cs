@@ -1,7 +1,5 @@
 ﻿using System.Linq.Expressions;
-using AutoMapper;
 using EmployeeBenefits.Data.Models;
-using EmployeeBenefits.Data.Models.Dto;
 using EmployeeBenefits.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +18,7 @@ namespace EmployeeBenefits.Data.Repositories
         {
             IEnumerable<Employee> employees = await _db.Employees.ToListAsync();
 
-            return employees; // _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employees;
 
         }
 
@@ -28,7 +26,7 @@ namespace EmployeeBenefits.Data.Repositories
         {
             var employee = await _db.Employees.SingleOrDefaultAsync(x => x.Id == id);
 
-            return employee; // _mapper.Map<EmployeeDto>(employee);
+            return employee; 
       
         }
 
@@ -36,20 +34,18 @@ namespace EmployeeBenefits.Data.Repositories
         {
             var employee = await _db.Employees.FindAsync(predicate);
 
-            return employee; // _mapper.Map<EmployeeDto>(employee);
+            return employee; 
         }
 
         public async Task<IEnumerable<Employee>> FindEmployees(Expression<Func<Employee, bool>> predicate)
         {
             var employees = await _db.Employees.ToListAsync();
 
-            return employees; // _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employees; 
         }
 
         public async Task<Employee> AddOrUpdateEmployee(Employee employee)
         {
-            //var employee = _mapper.Map<EmployeeDto, Employee>(employee);
-
             if(employee.Id > 0)
             {
                 _db.Employees.Update(employee);
@@ -61,7 +57,7 @@ namespace EmployeeBenefits.Data.Repositories
 
             await _db.SaveChangesAsync();
 
-            return employee; // _mapper.Map<EmployeeDto>(employee);
+            return employee;
         }
 
         public async Task<bool> DeleteEmployee(int id)
@@ -75,6 +71,49 @@ namespace EmployeeBenefits.Data.Repositories
                 }
 
                 _db.Employees.Remove(employee);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<IEnumerable<Dependent>> GetDependents(int id)
+        {
+            IEnumerable<Dependent> dependents = await _db.Dependents.Where(x=> x.EmployeeId == id).ToListAsync();
+
+            return dependents;
+        }
+
+        public async Task<Dependent> AddOrUpdateDependent(Dependent dependent)
+        {
+            if (dependent.Id > 0)
+            {
+                _db.Dependents.Update(dependent);
+            }
+            else
+            {
+                _db.Dependents.Add(dependent);
+            }
+
+            await _db.SaveChangesAsync();
+
+            return dependent;
+        }
+
+        public async Task<bool> DeleteDependent(int id)
+        {
+            try
+            {
+                var dependent = await _db.Dependents.FirstOrDefaultAsync(x => x.Id == id);
+                if (dependent == null)
+                {
+                    return false;
+                }
+
+                _db.Dependents.Remove(dependent);
 
                 return true;
             }

@@ -19,3 +19,11 @@ export interface DependentDto {
     firstName: string;
     lastName: string;
 }
+
+export class Dependent {
+    id: number = 0;
+    employeeId: number = 0;
+    firstName?: string;
+    lastName?: string;
+}
+

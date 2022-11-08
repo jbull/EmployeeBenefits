@@ -40,7 +40,7 @@ namespace EmployeeBenefits.Api.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-            
+
         }
 
         // GET: api/Employees/5
@@ -81,9 +81,9 @@ namespace EmployeeBenefits.Api.Controllers
 
                 var result = await _employeeRepository.AddOrUpdateEmployee(employee);
 
-                var empToReturn = _mapper.Map<EmployeeDto>(employee);
+                var dataForReturn = _mapper.Map<EmployeeDto>(result);
 
-                return CreatedAtAction("GetEmployee", new { id = empToReturn.Id }, empToReturn);
+                return CreatedAtAction("GetEmployee", new { id = dataForReturn.Id }, dataForReturn);
             }
             catch (Exception e)
             {
@@ -111,9 +111,9 @@ namespace EmployeeBenefits.Api.Controllers
 
                 var result = await _employeeRepository.AddOrUpdateEmployee(employee);
 
-                var empToReturn = _mapper.Map<EmployeeDto>(employee);
+                var dataForReturn = _mapper.Map<EmployeeDto>(result);
 
-                return CreatedAtAction("GetEmployee", new { id = empToReturn.Id }, empToReturn);
+                return CreatedAtAction("GetEmployee", new { id = dataForReturn.Id }, dataForReturn);
             }
             catch (Exception e)
             {
@@ -130,6 +130,65 @@ namespace EmployeeBenefits.Api.Controllers
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             var result = await _employeeRepository.DeleteEmployee(id);
+
+            return NoContent();
+        }
+
+ 
+        // DEPENDENTS
+
+        [HttpGet("dependents/{id}")]
+        public async Task<ActionResult<DependentDto>> GetDependents(int id)
+        {
+            try
+            {
+                var dependents = await _employeeRepository.GetDependents(id);
+
+                if (dependents == null)
+                {
+                    return NotFound();
+                }
+
+                var dataForReturn = _mapper.Map<IEnumerable<DependentDto>>(dependents);
+
+                return Ok(dataForReturn);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
+        [HttpPost("dependents")]
+        [Consumes("application/json")]
+        public async Task<ActionResult<DependentDto>> AddDependent([FromBody] DependentDto dependentDto)
+        {
+            try
+            {
+                var dependent = _mapper.Map<Dependent>(dependentDto);
+
+                var result = await _employeeRepository.AddOrUpdateDependent(dependent);
+
+                var dataForReturn = _mapper.Map<DependentDto>(result);
+
+                return CreatedAtAction("GetEmployee", new { id = dataForReturn.Id }, dataForReturn);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
+        [HttpDelete("depnendents/{id}")]
+        public async Task<IActionResult> DeleteDependent(int id)
+        {
+            var result = await _employeeRepository.DeleteDependent(id);
 
             return NoContent();
         }
