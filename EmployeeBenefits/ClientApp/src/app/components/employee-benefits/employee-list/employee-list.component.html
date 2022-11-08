@@ -32,7 +32,6 @@
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
             <mat-cell *matCellDef="let employee" fxFlex>
-              <!-- <button mat-flat-button color="primary" class="action-first" (click)="editDependents(employee.id)">Dependents</button> -->
               <button mat-flat-button color="primary" class="action-first" (click)="editEmployee(employee.id)">Edit</button>
               <button mat-flat-button color="warn"  (click)="deleteEmployee(employee)">Delete</button>
             </mat-cell>

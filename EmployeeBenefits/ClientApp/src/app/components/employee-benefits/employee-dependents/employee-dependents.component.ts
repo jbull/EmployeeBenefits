@@ -42,7 +42,7 @@ export class EmployeeDependentsComponent implements OnInit {
       this.loadDependents();
     }
 
-    console.log(changes);
+    //console.log(changes);
   }
   
   private loadDependents() {
@@ -53,12 +53,12 @@ export class EmployeeDependentsComponent implements OnInit {
     );
   }
 
-  private onDataLoadSuccessful(employees: any) {
+  private onDataLoadSuccessful(dependents: any) {
     if(isDevMode())
-      console.log(employees)
+      console.log(dependents)
 
     this.loadingIndicator = false;
-    this.dataSource.data = employees;
+    this.dataSource.data = dependents;
   }
 
   private onDataLoadFailed(error: any) {
@@ -69,8 +69,8 @@ export class EmployeeDependentsComponent implements OnInit {
 
   private buildForm() {
     this.dependentForm = this.formBuilder.group({
-      firstName: ['', Validators.required, Validators.maxLength(50)],
-      lastName: ['', Validators.required, Validators.maxLength(50)],
+      firstName: [''],
+      lastName: [''],
     });
   }
 
@@ -80,7 +80,7 @@ export class EmployeeDependentsComponent implements OnInit {
     this.employeeService.newDependent(model).subscribe(
       dependent => this.onSaveCompleted(dependent),
         error => this.onSaveFailed(error));
-  }
+     }
 
   private getDependentsModel(): DependentDto {
     const formModel = this.dependentForm.value;
@@ -97,7 +97,8 @@ export class EmployeeDependentsComponent implements OnInit {
     if(isDevMode())
     console.log(dependent)
 
-    this.router.navigateByUrl("employee-list")
+    this.loadDependents();
+    this.resetForm();
   }
 
   private onSaveFailed(error: any) {
@@ -105,7 +106,10 @@ export class EmployeeDependentsComponent implements OnInit {
       console.log(error)
   }
 
-
+  private resetForm() {
+    this.dependentForm.reset();
+  }
+  
   public deleteDependent(id: number) {
     // TODO:
   }

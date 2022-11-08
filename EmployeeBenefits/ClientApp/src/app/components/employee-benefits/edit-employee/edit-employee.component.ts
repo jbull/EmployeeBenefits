@@ -37,8 +37,8 @@ export class EditEmployeeComponent implements OnInit {
   private buildForm() {
     this.employeeForm = this.formBuilder.group({
       id:[''],
-      firstName: ['', Validators.required, Validators.maxLength(50)],
-      lastName: ['', Validators.required, Validators.maxLength(50)],
+      firstName: [''],
+      lastName: [''],
       monthlyCost: [''],
       yearlyCost: [''],
       dependents: [''],
@@ -59,6 +59,9 @@ export class EditEmployeeComponent implements OnInit {
       id: this.employee.id,
       firstName: this.employee.firstName,
       lastName: this.employee.lastName,
+      monthlyCost: 0,
+      yearlyCost: 0,
+      dependents: [],
     });
   }
 
