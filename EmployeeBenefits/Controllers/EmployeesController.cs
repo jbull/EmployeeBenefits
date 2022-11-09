@@ -64,8 +64,12 @@ namespace EmployeeBenefits.Api.Controllers
 
                 var benefits = await _benefitService.GetBenefitsCost(employee.Id);
 
+                empToReturn.YearlySalary = benefits.YearlySalary;
+                empToReturn.CheckGrossPay = benefits.CheckGrossPay;
+                empToReturn.CostPerCheck = benefits.CostPerCheck;
                 empToReturn.YearlyCost = benefits.YearlyCost;
-                empToReturn.MonthlyCost = benefits.MonthlyCost;
+                empToReturn.Discounts = benefits.Discounts;
+                empToReturn.Dependents = benefits.Dependents;
 
                 return Ok(empToReturn);
             }

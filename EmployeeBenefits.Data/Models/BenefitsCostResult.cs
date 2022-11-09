@@ -8,10 +8,16 @@ namespace EmployeeBenefits.Data.Models
 {
     public class BenefitsCostResult
     {
-        public double MonthlyCost { get; set; }
+        public decimal YearlySalary { get; set; }
 
-        public double YearlyCost { get; set; }
+        public decimal CheckGrossPay { get; set; }
 
-        public double Discount { get; set; }
+        public decimal CostPerCheck { get; set; }
+
+        public decimal YearlyCost { get; set; }
+
+        public decimal Discounts { get; set; }
+
+        public int Dependents { get; set; }
     }
 }

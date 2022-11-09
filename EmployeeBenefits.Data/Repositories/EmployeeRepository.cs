@@ -82,7 +82,7 @@ namespace EmployeeBenefits.Data.Repositories
 
         public async Task<IEnumerable<Dependent>> GetDependents(int id)
         {
-            IEnumerable<Dependent> dependents = await _db.Dependents.Where(x=> x.EmployeeId == id).ToListAsync();
+            var dependents = await _db.Dependents.Where(x=> x.EmployeeId == id).ToListAsync();
 
             return dependents;
         }

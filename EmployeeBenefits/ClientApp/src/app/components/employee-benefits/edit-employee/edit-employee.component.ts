@@ -59,9 +59,6 @@ export class EditEmployeeComponent implements OnInit {
       id: this.employee.id,
       firstName: this.employee.firstName,
       lastName: this.employee.lastName,
-      monthlyCost: 0,
-      yearlyCost: 0,
-      dependents: [],
     });
   }
 
@@ -86,9 +83,11 @@ export class EditEmployeeComponent implements OnInit {
       id: this.employee.id,
       firstName: formModel.firstName,
       lastName: formModel.lastName,
-      monthlyCost: 0,
-      yearlyCost: 0,
-      dependents:[]
+      yearlySalary: this.employee.yearlySalary,
+      checkGrossPay: this.employee.checkGrossPay,
+      costPerCheck: this.employee.costPerCheck,
+      yearlyCost: this.employee.yearlyCost,
+      discounts: this.employee.discounts
     };
   }
 
