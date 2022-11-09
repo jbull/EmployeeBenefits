@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Models.Dto;
-using Microsoft.AspNetCore.Authorization;
 using EmployeeBenefits.Data.Services.Interfaces;
 
 namespace EmployeeBenefits.Api.Controllers
@@ -83,7 +82,6 @@ namespace EmployeeBenefits.Api.Controllers
         }
 
         // POST: api/Employees
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Consumes("application/json")]
         public async Task<ActionResult<EmployeeDto>> AddEmployee([FromBody] EmployeeDto employeeDto)
@@ -108,7 +106,6 @@ namespace EmployeeBenefits.Api.Controllers
         }
 
         // PUT: api/Employees/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Consumes("application/json")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeDto employeeDto)
