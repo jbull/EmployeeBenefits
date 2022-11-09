@@ -49,11 +49,11 @@
               <mat-grid-tile>
                 <mat-list>
                   <mat-list-item>{{ employee.dependents }}</mat-list-item>
-                  <mat-list-item>{{ employee.yearlySalary }}</mat-list-item>
-                  <mat-list-item>{{ employee.checkGrossPay }}</mat-list-item>
-                  <mat-list-item>{{ employee.yearlyCost }}</mat-list-item>
-                  <mat-list-item>{{ employee.costPerCheck }}</mat-list-item>
-                  <mat-list-item>{{ employee.discounts }}</mat-list-item>
+                  <mat-list-item>{{ employee.yearlySalary | currency }}</mat-list-item>
+                  <mat-list-item>{{ employee.checkGrossPay | currency }}</mat-list-item>
+                  <mat-list-item>{{ employee.yearlyCost | currency }}</mat-list-item>
+                  <mat-list-item>{{ employee.costPerCheck | currency }}</mat-list-item>
+                  <mat-list-item>{{ employee.discounts | currency }}</mat-list-item>
                 </mat-list>
               </mat-grid-tile>
             </mat-grid-list>
@@ -65,28 +65,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-  <!-- <form  [formGroup]="employeeForm" (ngSubmit)="save()">
-
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-      <mat-form-field>
-        <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstName" maxlength="50"/>
-      </mat-form-field>
-    </div>
-
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" maxlength="50"/>
-      </mat-form-field>
-      </div>
-
-      <button type="submit" color="primary">Save</button>
-  </form> -->
 
   <div class="">
     <app-employee-dependents [employee]="employee" (dependentsModified)="onDependentsModified($event)"></app-employee-dependents>
