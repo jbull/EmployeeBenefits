@@ -34,18 +34,19 @@ export class EditEmployeeComponent implements OnInit {
     this.buildForm();
   }
 
+  public onDependentsModified(id: any){
+    this.getEmployee(id)
+  }
+
   private buildForm() {
     this.employeeForm = this.formBuilder.group({
       id:[''],
       firstName: [''],
       lastName: [''],
-      monthlyCost: [''],
-      yearlyCost: [''],
-      dependents: [''],
     });
   }
 
-  getEmployee(id: number){
+  private getEmployee(id: number){
     this.employeeService
     .getEmployee(id)
     .subscribe((employee: Employee) => {
@@ -54,7 +55,7 @@ export class EditEmployeeComponent implements OnInit {
     });
   }
 
-  patchEmployeeForm(){
+  private patchEmployeeForm(){
     this.employeeForm.patchValue({
       id: this.employee.id,
       firstName: this.employee.firstName,
@@ -87,7 +88,8 @@ export class EditEmployeeComponent implements OnInit {
       checkGrossPay: this.employee.checkGrossPay,
       costPerCheck: this.employee.costPerCheck,
       yearlyCost: this.employee.yearlyCost,
-      discounts: this.employee.discounts
+      discounts: this.employee.discounts,
+      dependents: this.employee.dependents
     };
   }
 

@@ -1,0 +1,22 @@
+
+  
+  .col{
+    display:flex;
+  }
+  
+  .col div{
+    flex:auto;
+  }
+
+
+.mat-list-item {
+  font-size: 14px;
+  line-height: 14px;
+  padding: 0 16px;
+  position: relative;
+}
+
+
+.mat-grid-tile {
+  overflow: visible;
+}

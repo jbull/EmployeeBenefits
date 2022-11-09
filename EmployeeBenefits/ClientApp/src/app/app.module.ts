@@ -3,12 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +13,10 @@ import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule } from "@angular/material/paginator"; 
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"; 
 import { MatSortModule } from "@angular/material/sort"; 
+import { MatListModule } from "@angular/material/list"; 
 import { MatTableModule } from "@angular/material/table";
+import { MatCardModule } from "@angular/material/card";
+import { MatGridListModule } from "@angular/material/grid-list";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { EmployeeListComponent } from './components/employee-benefits/employee-list/employee-list.component';
@@ -31,8 +31,6 @@ import { EmployeeDependentsComponent } from './components/employee-benefits/empl
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     EmployeeListComponent,
     EditEmployeeComponent,
     EmployeeDependentsComponent
@@ -53,11 +51,12 @@ import { EmployeeDependentsComponent } from './components/employee-benefits/empl
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
+    MatListModule,
+    MatGridListModule,
 
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'employee-list', component: EmployeeListComponent },
       { path: 'edit-employee', component: EditEmployeeComponent },
       { path: 'edit-employee/:id', component: EditEmployeeComponent },

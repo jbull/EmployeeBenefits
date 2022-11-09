@@ -45,8 +45,9 @@ namespace EmployeeBenefits.Data.Services
                     // does employee get a discount?
                     if (employee.FirstName.StartsWith(DISCOUNT_QUALIFIER))
                     {
-                        yearlyCost = (YEARLY_EMPLOYEE_COST * DISCOUNT_AMT) / 100;
-                        discounts = YEARLY_EMPLOYEE_COST * DISCOUNT_AMT;
+                        yearlyCost = YEARLY_DEPENDENT_COST - (YEARLY_EMPLOYEE_COST * DISCOUNT_AMT / 100);
+
+                        discounts = (YEARLY_EMPLOYEE_COST * DISCOUNT_AMT / 100);
                     }
                     else
                     {
@@ -64,8 +65,9 @@ namespace EmployeeBenefits.Data.Services
                             // does dependent get a discount?
                             if (dependent.FirstName.StartsWith(DISCOUNT_QUALIFIER))
                             {
-                                yearlyCost += YEARLY_DEPENDENT_COST * DISCOUNT_AMT / 100;
-                                discounts += YEARLY_DEPENDENT_COST * DISCOUNT_AMT;
+                                yearlyCost += YEARLY_DEPENDENT_COST - (YEARLY_DEPENDENT_COST * DISCOUNT_AMT / 100);
+
+                                discounts += (YEARLY_DEPENDENT_COST * DISCOUNT_AMT / 100);
                             }
                             else
                             {

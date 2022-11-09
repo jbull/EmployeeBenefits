@@ -7,6 +7,7 @@ export interface EmployeeDto {
     costPerCheck: number;
     yearlyCost: number;
     discounts: number;
+    dependents: number;
 }
 
 export class Employee {
@@ -18,6 +19,7 @@ export class Employee {
     costPerCheck: number = 0;
     yearlyCost: number  = 0;
     discounts: number = 0;
+    dependents: number = 0;
 }
 
 export interface DependentDto {

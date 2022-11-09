@@ -11,39 +11,39 @@ export class EmployeeService {
 
   }
 
-  getEmployees() {
+  public getEmployees() {
     return this.employeeEndpoint.getEmployeesEndpoint<EmployeeDto[]>();
   }
 
-  getEmployee(employeeId: number) {
+  public getEmployee(employeeId: number) {
     return this.employeeEndpoint.getEmployeeByIdEndpoint<EmployeeDto>(employeeId);
   }
 
-  newEmployee(employee: EmployeeDto) {
+  public newEmployee(employee: EmployeeDto) {
     return this.employeeEndpoint.getNewEmployeeEndpoint<EmployeeDto>(employee);
   }
 
-  updateEmployee(employee: EmployeeDto) {
+  public updateEmployee(employee: EmployeeDto) {
     return this.employeeEndpoint.getUpdateEmployeeEndpoint(employee.id, employee);
   }
 
-  deleteEmployee(employeeId: number) {
+  public deleteEmployee(employeeId: number) {
     return this.employeeEndpoint.getDeleteEmployeeEndpoint<boolean>(employeeId);
   }
 
-  getDependents(employeeId: number) {
+  public getDependents(employeeId: number) {
     return this.employeeEndpoint.getDependentsEndpoint<DependentDto[]>(employeeId);
   }
 
-  newDependent(dependent: DependentDto) {
+  public newDependent(dependent: DependentDto) {
     return this.employeeEndpoint.getNewDependentEndpoint<DependentDto>(dependent);
   }
 
-  updateDependent(dependent: DependentDto) {
+  public updateDependent(dependent: DependentDto) {
     return this.employeeEndpoint.getUpdateDependentEndpoint(dependent.id, dependent);
   }
 
-  deleteDependent(dependentId: number) {
+  public deleteDependent(dependentId: number) {
     return this.employeeEndpoint.getDeleteDependentEndpoint<boolean>(dependentId);
   }
 }

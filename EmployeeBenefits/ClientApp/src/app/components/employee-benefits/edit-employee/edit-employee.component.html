@@ -1,10 +1,75 @@
 <div class="container-fluid">
-  <div class="pt-3 pb-2 mb-3 border-bottom">
-    <h2 class="h2">Add Employee</h2>
+
+  <div class="container">
+    <div class="col">
+      <div class="col1">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Employee</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form  [formGroup]="employeeForm" (ngSubmit)="save()">
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+                <mat-form-field>
+                  <mat-label>First Name</mat-label>
+                  <input matInput formControlName="firstName" maxlength="50"/>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+                <mat-form-field>
+                  <mat-label>Last Name</mat-label>
+                  <input matInput formControlName="lastName" maxlength="50"/>
+                </mat-form-field>
+                </div>  
+            </form>
+          </mat-card-content>
+          <mat-card-actions align="start">
+            <button type="submit" color="primary">Save</button>
+          </mat-card-actions>
+          <mat-card-footer></mat-card-footer>
+        </mat-card>
+      </div>
+      <div class="col2 ms-3">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Benefits Cost</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-grid-list cols="2">
+              <mat-grid-tile>
+                <mat-list>
+                  <mat-list-item>Dependents</mat-list-item>
+                  <mat-list-item>Yearly Salary</mat-list-item>
+                  <mat-list-item>Gross Per Check </mat-list-item>
+                  <mat-list-item>Yearly Cost</mat-list-item>
+                  <mat-list-item>Cost Per Check</mat-list-item>
+                  <mat-list-item>Discounts</mat-list-item>
+                </mat-list>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-list>
+                  <mat-list-item>{{ employee.dependents }}</mat-list-item>
+                  <mat-list-item>{{ employee.yearlySalary }}</mat-list-item>
+                  <mat-list-item>{{ employee.checkGrossPay }}</mat-list-item>
+                  <mat-list-item>{{ employee.yearlyCost }}</mat-list-item>
+                  <mat-list-item>{{ employee.costPerCheck }}</mat-list-item>
+                  <mat-list-item>{{ employee.discounts }}</mat-list-item>
+                </mat-list>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </mat-card-content>
+          <mat-card-actions align="start">
+          </mat-card-actions>
+          <mat-card-footer></mat-card-footer>
+        </mat-card>
+      </div>
+    </div>
   </div>
 
 
-  <form  [formGroup]="employeeForm" (ngSubmit)="save()">
+
+
+  <!-- <form  [formGroup]="employeeForm" (ngSubmit)="save()">
 
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
       <mat-form-field>
@@ -21,9 +86,9 @@
       </div>
 
       <button type="submit" color="primary">Save</button>
-  </form>
+  </form> -->
 
   <div class="">
-    <app-employee-dependents [employee]="employee"></app-employee-dependents>
+    <app-employee-dependents [employee]="employee" (dependentsModified)="onDependentsModified($event)"></app-employee-dependents>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, isDevMode, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, isDevMode, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,6 +21,8 @@ export class EmployeeDependentsComponent implements OnInit {
   
   dependentForm!: FormGroup;
   dependent: Dependent = new Dependent;
+
+  @Output() dependentsModified = new EventEmitter<number>();
 
   constructor(private employeeService: EmployeeService, 
     private formBuilder: FormBuilder,
@@ -99,6 +101,8 @@ export class EmployeeDependentsComponent implements OnInit {
 
     this.loadDependents();
     this.resetForm();
+
+    this.dependentsModified.emit(dependent?.employeeId);
   }
 
   private onSaveFailed(error: any) {

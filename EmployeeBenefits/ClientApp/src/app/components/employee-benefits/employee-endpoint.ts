@@ -22,7 +22,7 @@ get headers() { return new HttpHeaders()
   .set('Access-Control-Allow-Origin', '*');
 }
 
-getEmployeesEndpoint<T>(): Observable<T> {
+public getEmployeesEndpoint<T>(): Observable<T> {
   const endpointUrl = this.employeesUrl;
 
   return this.http.get<T>(endpointUrl, { 'headers': this.headers }).pipe(
@@ -31,7 +31,7 @@ getEmployeesEndpoint<T>(): Observable<T> {
     ));
 }
 
-getEmployeeByIdEndpoint<T>(employeeId: number): Observable<T> {
+public getEmployeeByIdEndpoint<T>(employeeId: number): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/${employeeId}`;
 
   return this.http.get<T>(endpointUrl, { 'headers': this.headers }).pipe(
@@ -40,7 +40,7 @@ getEmployeeByIdEndpoint<T>(employeeId: number): Observable<T> {
     ));
 }
 
-getNewEmployeeEndpoint<T>(employee: EmployeeDto): Observable<T> {
+public getNewEmployeeEndpoint<T>(employee: EmployeeDto): Observable<T> {
   const endpointUrl = this.employeesUrl;
 
   return this.http.post<T>(endpointUrl, JSON.stringify(employee), { 'headers': this.headers }).pipe(
@@ -49,7 +49,7 @@ getNewEmployeeEndpoint<T>(employee: EmployeeDto): Observable<T> {
     ));
 }
 
-getUpdateEmployeeEndpoint<T>(employeeId: number, employee: EmployeeDto): Observable<T> {
+public getUpdateEmployeeEndpoint<T>(employeeId: number, employee: EmployeeDto): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/${employeeId}`;
 
   return this.http.post<T>(endpointUrl, JSON.stringify(employee), { 'headers': this.headers }).pipe(
@@ -58,7 +58,7 @@ getUpdateEmployeeEndpoint<T>(employeeId: number, employee: EmployeeDto): Observa
     ));
 }
 
-getDeleteEmployeeEndpoint<T>(employeeId: number): Observable<T> {
+public getDeleteEmployeeEndpoint<T>(employeeId: number): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/${employeeId}`;
 
   return this.http.delete<T>(endpointUrl, { 'headers': this.headers }).pipe(
@@ -67,7 +67,7 @@ getDeleteEmployeeEndpoint<T>(employeeId: number): Observable<T> {
     ));
 }
 
-getDependentsEndpoint<T>(employeeid: number): Observable<T> {
+public getDependentsEndpoint<T>(employeeid: number): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/dependents/${employeeid}`;
 
   return this.http.get<T>(endpointUrl, { 'headers': this.headers } ).pipe(
@@ -76,7 +76,7 @@ getDependentsEndpoint<T>(employeeid: number): Observable<T> {
     ));
 }
 
-getNewDependentEndpoint<T>(dependent: DependentDto): Observable<T> {
+public getNewDependentEndpoint<T>(dependent: DependentDto): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/dependents`;
 
   return this.http.post<T>(endpointUrl, JSON.stringify(dependent), { 'headers': this.headers }).pipe(
@@ -85,7 +85,7 @@ getNewDependentEndpoint<T>(dependent: DependentDto): Observable<T> {
     ));
 }
 
-getUpdateDependentEndpoint<T>(dependentId: number, dependent: DependentDto): Observable<T> {
+public getUpdateDependentEndpoint<T>(dependentId: number, dependent: DependentDto): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/dependents/${dependentId}`;
 
   return this.http.post<T>(endpointUrl, JSON.stringify(dependent), { 'headers': this.headers }).pipe(
@@ -94,7 +94,7 @@ getUpdateDependentEndpoint<T>(dependentId: number, dependent: DependentDto): Obs
     ));
 }
 
-getDeleteDependentEndpoint<T>(employeeId: number): Observable<T> {
+public getDeleteDependentEndpoint<T>(employeeId: number): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/dependents/${employeeId}`;
 
   return this.http.delete<T>(endpointUrl, { 'headers': this.headers }).pipe(
@@ -103,7 +103,7 @@ getDeleteDependentEndpoint<T>(employeeId: number): Observable<T> {
     ));
 }
 
-handleError(error: HttpErrorResponse) {
+public handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
