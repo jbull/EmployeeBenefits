@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefits.Api", "EmployeeBenefits\EmployeeBenefits.Api.csproj", "{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeBenefits.Api", "EmployeeBenefits\EmployeeBenefits.Api.csproj", "{DDEB955B-73F7-46D2-9D6C-A4909A0C3EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefits.Data", "EmployeeBenefits.Data\EmployeeBenefits.Data.csproj", "{252F33FC-F7B4-4943-ADCC-90386B729520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeBenefits.Data", "EmployeeBenefits.Data\EmployeeBenefits.Data.csproj", "{252F33FC-F7B4-4943-ADCC-90386B729520}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefits.Tests", "EmployeeBenefits.Tests\EmployeeBenefits.Tests.csproj", "{6B042E77-4B41-4FE1-BC26-470614D1BA26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{252F33FC-F7B4-4943-ADCC-90386B729520}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{252F33FC-F7B4-4943-ADCC-90386B729520}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{252F33FC-F7B4-4943-ADCC-90386B729520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B042E77-4B41-4FE1-BC26-470614D1BA26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B042E77-4B41-4FE1-BC26-470614D1BA26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B042E77-4B41-4FE1-BC26-470614D1BA26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B042E77-4B41-4FE1-BC26-470614D1BA26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
