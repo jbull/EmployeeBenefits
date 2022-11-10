@@ -12,16 +12,16 @@ namespace EmployeeBenefits.Tests.Services
     [TestFixture]
     public class BenefitServiceTests
     {
-        private MockRepository mockRepository;
+        private MockRepository _mockRepository;
 
-        private Mock<IEmployeeRepository> mockEmployeeRepository;
-        private Mock<IDependentRepository> mockDependentRepository;
-        private Mock<ILogger<BenefitService>> mockLogger;
+        private Mock<IEmployeeRepository> _mockEmployeeRepository;
+        private Mock<IDependentRepository> _mockDependentRepository;
+        private Mock<ILogger<BenefitService>> _mockLogger;
 
         [SetUp]
         public void SetUp()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
+            this._mockRepository = new MockRepository(MockBehavior.Strict);
 
             var mockEmployees = new List<Employee>
             {
@@ -34,17 +34,17 @@ namespace EmployeeBenefits.Tests.Services
                 new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
             };
 
-            this.mockEmployeeRepository = this.mockRepository.Create<IEmployeeRepository>(mockEmployees);
-            this.mockDependentRepository = this.mockRepository.Create<IDependentRepository>(mockDependents);
-            this.mockLogger = this.mockRepository.Create<ILogger<BenefitService>>();
+            this._mockEmployeeRepository = this._mockRepository.Create<IEmployeeRepository>(mockEmployees);
+            this._mockDependentRepository = this._mockRepository.Create<IDependentRepository>(mockDependents);
+            this._mockLogger = this._mockRepository.Create<ILogger<BenefitService>>();
         }
 
         private BenefitService CreateService()
         {
             return new BenefitService(
-                this.mockEmployeeRepository.Object,
-                this.mockDependentRepository.Object,
-                this.mockLogger.Object);
+                this._mockEmployeeRepository.Object,
+                this._mockDependentRepository.Object,
+                this._mockLogger.Object);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace EmployeeBenefits.Tests.Services
 
             // Assert
             Assert.Fail();
-            this.mockRepository.VerifyAll();
+            this._mockRepository.VerifyAll();
         }
     }
 }

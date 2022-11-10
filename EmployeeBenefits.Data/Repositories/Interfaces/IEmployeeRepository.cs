@@ -9,10 +9,6 @@ namespace EmployeeBenefits.Data.Repositories.Interfaces
 
         Task<Employee> GetEmployeeById(int id);
 
-        Task<Employee> GetEmployee(Expression<Func<Employee, bool>> predicate);
-
-        Task<IEnumerable<Employee>> FindEmployees(Expression<Func<Employee, bool>> predicate);
-
         Task<Employee> AddOrUpdateEmployee(Employee employee);
 
         Task<bool> DeleteEmployee(int id);

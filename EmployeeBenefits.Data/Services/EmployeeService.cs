@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using EmployeeBenefits.Data.Models;
+﻿using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Services.Interfaces;
 
@@ -22,16 +21,6 @@ namespace EmployeeBenefits.Data.Services
         public async Task<Employee> GetEmployeeById(int id)
         {
             return await _employeeRepository.GetEmployeeById(id);
-        }
-
-        public async Task<Employee> GetEmployee(Expression<Func<Employee, bool>> predicate)
-        {
-            return await _employeeRepository.GetEmployee(predicate);
-        }
-
-        public async Task<IEnumerable<Employee>> FindEmployees(Expression<Func<Employee, bool>> predicate)
-        {
-            return await _employeeRepository.FindEmployees(predicate);
         }
 
         public async Task<Employee> AddOrUpdateEmployee(Employee employee)

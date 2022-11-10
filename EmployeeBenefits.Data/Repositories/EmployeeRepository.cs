@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using EmployeeBenefits.Data.Models;
+﻿using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,22 +25,7 @@ namespace EmployeeBenefits.Data.Repositories
         {
             var employee = await _db.Employees.SingleOrDefaultAsync(x => x.Id == id);
 
-            return employee; 
-      
-        }
-
-        public async Task<Employee> GetEmployee(Expression<Func<Employee, bool>> predicate)
-        {
-            var employee = await _db.Employees.FindAsync(predicate);
-
-            return employee; 
-        }
-
-        public async Task<IEnumerable<Employee>> FindEmployees(Expression<Func<Employee, bool>> predicate)
-        {
-            var employees = await _db.Employees.ToListAsync();
-
-            return employees; 
+            return employee;
         }
 
         public async Task<Employee> AddOrUpdateEmployee(Employee employee)
