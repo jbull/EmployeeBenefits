@@ -16,6 +16,7 @@ constructor(private  http: HttpClient) {
 public baseUrl = environment.baseUrl;
 
 get employeesUrl() { return this.baseUrl + '/api/employees'; }
+get dependentsUrl() { return this.baseUrl + '/api/dependents'; }
 
 get headers() { return new HttpHeaders()
   .set('content-type', 'application/json')
@@ -52,7 +53,7 @@ public getNewEmployeeEndpoint<T>(employee: EmployeeDto): Observable<T> {
 public getUpdateEmployeeEndpoint<T>(employeeId: number, employee: EmployeeDto): Observable<T> {
   const endpointUrl = `${this.employeesUrl}/${employeeId}`;
 
-  return this.http.post<T>(endpointUrl, JSON.stringify(employee), { 'headers': this.headers }).pipe(
+  return this.http.put<T>(endpointUrl, JSON.stringify(employee), { 'headers': this.headers }).pipe(
     catchError(
       this.handleError
     ));
@@ -68,7 +69,7 @@ public getDeleteEmployeeEndpoint<T>(employeeId: number): Observable<T> {
 }
 
 public getDependentsEndpoint<T>(employeeid: number): Observable<T> {
-  const endpointUrl = `${this.employeesUrl}/dependents/${employeeid}`;
+  const endpointUrl = `${this.dependentsUrl}/dependents/${employeeid}`;
 
   return this.http.get<T>(endpointUrl, { 'headers': this.headers } ).pipe(
     catchError(
@@ -77,7 +78,7 @@ public getDependentsEndpoint<T>(employeeid: number): Observable<T> {
 }
 
 public getNewDependentEndpoint<T>(dependent: DependentDto): Observable<T> {
-  const endpointUrl = `${this.employeesUrl}/dependents`;
+  const endpointUrl = `${this.dependentsUrl}/dependents`;
 
   return this.http.post<T>(endpointUrl, JSON.stringify(dependent), { 'headers': this.headers }).pipe(
     catchError(
@@ -86,7 +87,7 @@ public getNewDependentEndpoint<T>(dependent: DependentDto): Observable<T> {
 }
 
 public getUpdateDependentEndpoint<T>(dependentId: number, dependent: DependentDto): Observable<T> {
-  const endpointUrl = `${this.employeesUrl}/dependents/${dependentId}`;
+  const endpointUrl = `${this.dependentsUrl}/dependents/${dependentId}`;
 
   return this.http.post<T>(endpointUrl, JSON.stringify(dependent), { 'headers': this.headers }).pipe(
     catchError(
@@ -95,7 +96,7 @@ public getUpdateDependentEndpoint<T>(dependentId: number, dependent: DependentDt
 }
 
 public getDeleteDependentEndpoint<T>(employeeId: number): Observable<T> {
-  const endpointUrl = `${this.employeesUrl}/dependents/${employeeId}`;
+  const endpointUrl = `${this.dependentsUrl}/dependents/${employeeId}`;
 
   return this.http.delete<T>(endpointUrl, { 'headers': this.headers }).pipe(
     catchError(

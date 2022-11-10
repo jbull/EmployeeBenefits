@@ -58,6 +58,10 @@ export class EmployeeListComponent implements OnInit {
     this.dataSource.data = employees;
   }
   
+  public addEmployee (){
+    this.router.navigate([`edit-employee`]);
+  }
+  
   public editEmployee (id?: number){
     this.router.navigate([`edit-employee/${id}`]);
   }

@@ -1,9 +1,14 @@
-﻿using EmployeeBenefits.Data.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using EmployeeBenefits.Data.Models;
 
-namespace EmployeeBenefits.Data.Repositories.Interfaces
+namespace EmployeeBenefits.Data.Services.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeService
     {
         Task<IEnumerable<Employee>> GetEmployees();
 

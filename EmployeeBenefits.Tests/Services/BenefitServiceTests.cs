@@ -1,8 +1,11 @@
-﻿using EmployeeBenefits.Data.Repositories.Interfaces;
+﻿using EmployeeBenefits.Data.Models;
+using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using EmployeeBenefits.Data.Models;
+using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace EmployeeBenefits.Tests.Services
 {
@@ -12,25 +15,27 @@ namespace EmployeeBenefits.Tests.Services
         private MockRepository mockRepository;
 
         private Mock<IEmployeeRepository> mockEmployeeRepository;
+        private Mock<IDependentRepository> mockDependentRepository;
         private Mock<ILogger<BenefitService>> mockLogger;
 
         [SetUp]
         public void SetUp()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-            
+
             var mockEmployees = new List<Employee>
             {
-                new Employee { Id = 1, FirstName = "Aaron", LastName = "Smith" }
+                new() { Id = 1, FirstName = "Aaron", LastName = "Smith" }
             };
 
             var mockDependents = new List<Dependent>
             {
-                new Dependent
-                    { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" }
+                new() { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" },
+                new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
             };
 
             this.mockEmployeeRepository = this.mockRepository.Create<IEmployeeRepository>(mockEmployees);
+            this.mockDependentRepository = this.mockRepository.Create<IDependentRepository>(mockDependents);
             this.mockLogger = this.mockRepository.Create<ILogger<BenefitService>>();
         }
 
@@ -38,6 +43,7 @@ namespace EmployeeBenefits.Tests.Services
         {
             return new BenefitService(
                 this.mockEmployeeRepository.Object,
+                this.mockDependentRepository.Object,
                 this.mockLogger.Object);
         }
 

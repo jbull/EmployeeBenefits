@@ -8,11 +8,15 @@ namespace EmployeeBenefits.Data.Services
     public class BenefitService : IBenefitService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDependentRepository _dependentRepository;
         private readonly ILogger<BenefitService> _logger;
 
-        public BenefitService(IEmployeeRepository employeeRepository, ILogger<BenefitService> logger)
+        public BenefitService(IEmployeeRepository employeeRepository,IDependentRepository dependentRepository, ILogger<BenefitService> logger)
         {
             _employeeRepository = employeeRepository;
+
+            _dependentRepository = dependentRepository;
+
             _logger = logger;
         }
 
@@ -20,9 +24,8 @@ namespace EmployeeBenefits.Data.Services
         {
             try
             {
-
-
                 var discounts = 0.00M;
+
                 var numDependents = 0;
 
                 var employee = await _employeeRepository.GetEmployeeById(id);
@@ -32,18 +35,18 @@ namespace EmployeeBenefits.Data.Services
                     // does employee get a discount?
                     var yearlyCost = 0.00M;
 
-                    if (employee.FirstName.StartsWith(Constants.DISCOUNT_QUALIFIER))
+                    if (employee.FirstName.StartsWith(Constants.DiscountQualifier))
                     {
-                        yearlyCost = Constants.YEARLY_DEPENDENT_COST - (Constants.YEARLY_EMPLOYEE_COST * Constants.DISCOUNT_AMT / 100);
+                        yearlyCost = Constants.YearlyDependentCost - (Constants.YearlyEmployeeCost * Constants.DiscountAmt / 100);
 
-                        discounts = (Constants.YEARLY_EMPLOYEE_COST * Constants.DISCOUNT_AMT / 100);
+                        discounts = (Constants.YearlyEmployeeCost * Constants.DiscountAmt / 100);
                     }
                     else
                     {
-                        yearlyCost = Constants.YEARLY_EMPLOYEE_COST;
+                        yearlyCost = Constants.YearlyEmployeeCost;
                     }
 
-                    var dependents = await _employeeRepository.GetDependents(id);
+                    var dependents = await _dependentRepository.GetDependents(id);
 
                     if (dependents != null)
                     {
@@ -52,25 +55,25 @@ namespace EmployeeBenefits.Data.Services
                         foreach (var dependent in dependents)
                         {
                             // does dependent get a discount?
-                            if (dependent.FirstName.StartsWith(Constants.DISCOUNT_QUALIFIER))
+                            if (dependent.FirstName.StartsWith(Constants.DiscountQualifier))
                             {
-                                yearlyCost += Constants.YEARLY_DEPENDENT_COST - (Constants.YEARLY_DEPENDENT_COST * Constants.DISCOUNT_AMT / 100);
+                                yearlyCost += Constants.YearlyDependentCost - (Constants.YearlyDependentCost * Constants.DiscountAmt / 100);
 
-                                discounts += (Constants.YEARLY_DEPENDENT_COST * Constants.DISCOUNT_AMT / 100);
+                                discounts += (Constants.YearlyDependentCost * Constants.DiscountAmt / 100);
                             }
                             else
                             {
-                                yearlyCost += Constants.YEARLY_DEPENDENT_COST;
+                                yearlyCost += Constants.YearlyDependentCost;
                             }
                         }
                     }
 
                     return new BenefitsCostResult
                     {
-                        YearlySalary = Constants.YEARLY_SALARY,
+                        YearlySalary = Constants.YearlySalary,
                         YearlyCost = yearlyCost,
-                        CheckGrossPay = Math.Round(Constants.CHECK_GROSS_PAY, 2),
-                        CostPerCheck = Math.Round(yearlyCost / Constants.PAYCHECHKS_PER_YEAR, 2),
+                        CheckGrossPay = Math.Round(Constants.CheckGrossPay, 2),
+                        CostPerCheck = Math.Round(yearlyCost / Constants.PaychecksPerYear, 2),
                         Discounts = discounts,
                         Dependents = numDependents
                     };

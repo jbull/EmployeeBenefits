@@ -1,11 +1,9 @@
 <div class="container-fluid">
   <div class="pt-3 pb-2 mb-3 border-bottom">
-    <h2 class="h2">Add Dependent</h2>
+    <h2 class="h2">Dependents</h2>
   </div>
 
-
   <form  [formGroup]="dependentForm" (ngSubmit)="save()">
-
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
       <mat-form-field>
         <mat-label>First Name</mat-label>
@@ -17,18 +15,9 @@
         <input matInput formControlName="lastName" maxlength="50"/>
       </mat-form-field>
 
-      <button type="submit" color="primary">Add</button>
+      <button mat-flat-button class="add" type="submit" color="primary">Add</button>
 
     </div>
-
-    <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" maxlength="50"/>
-      </mat-form-field>
-    </div> -->
-
-      <!-- <button type="submit" color="primary">Add</button> -->
   </form>
 
 

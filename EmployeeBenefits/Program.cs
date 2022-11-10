@@ -23,6 +23,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // register our repository and service classes
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDependentRepository, DependentRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IDependentService, DependentService>();
 builder.Services.AddScoped<IBenefitService, BenefitService>();
 
 builder.Services.AddControllers();

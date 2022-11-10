@@ -28,11 +28,23 @@ export class EditEmployeeComponent implements OnInit {
       (params) => {
         let id = parseInt(params.id);
         this.getEmployee(id);
+        this.isNewEmployee = Number.isNaN(id);
       }
     );
 
     this.buildForm();
   }
+
+  // ngOnChanges() {
+  //   if (this.employee == null) {
+  //     this.isNewEmployee = true;
+  //     this.employee = new Employee();
+  //   } else {
+  //     this.isNewEmployee = false;
+  //   }
+
+  //   this.resetForm();
+  // }
 
   public onDependentsModified(id: any){
     this.getEmployee(id)
@@ -44,6 +56,10 @@ export class EditEmployeeComponent implements OnInit {
       firstName: [''],
       lastName: [''],
     });
+  }
+
+  private resetForm(){
+    this.employeeForm.reset();
   }
 
   private getEmployee(id: number){

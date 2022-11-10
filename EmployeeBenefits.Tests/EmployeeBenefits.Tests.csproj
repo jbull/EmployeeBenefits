@@ -21,4 +21,8 @@
     <ProjectReference Include="..\EmployeeBenefits.Data\EmployeeBenefits.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>
