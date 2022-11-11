@@ -21,6 +21,7 @@ namespace EmployeeBenefits.Tests.Repositories
                 .Options;
             _context = new ApplicationDbContext(options);
             _context.Database.EnsureCreated();
+            _context.Database.EnsureDeleted();
 
             var dependents = new List<Dependent>
             {
@@ -41,7 +42,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task GetDependents_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var dependentRepository = this.CreateDependentRepository();
+            var dependentRepository = CreateDependentRepository();
             int id = 1;
 
             // Act
@@ -55,7 +56,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task GetDependentById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var dependentRepository = this.CreateDependentRepository();
+            var dependentRepository = CreateDependentRepository();
             int id = 1;
 
             // Act
@@ -69,7 +70,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task AddOrUpdateDependent_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var dependentRepository = this.CreateDependentRepository();
+            var dependentRepository = CreateDependentRepository();
 
             var dependent = new Dependent
             {
@@ -87,7 +88,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task DeleteDependent_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var dependentRepository = this.CreateDependentRepository();
+            var dependentRepository = CreateDependentRepository();
             int id = 1;
 
             // Act

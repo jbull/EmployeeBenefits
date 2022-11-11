@@ -3,9 +3,6 @@ using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace EmployeeBenefits.Tests.Services
 {
@@ -21,7 +18,7 @@ namespace EmployeeBenefits.Tests.Services
         [SetUp]
         public void SetUp()
         {
-            this._mockRepository = new MockRepository(MockBehavior.Strict);
+            _mockRepository = new MockRepository(MockBehavior.Strict);
 
             var mockEmployees = new List<Employee>
             {
@@ -34,25 +31,25 @@ namespace EmployeeBenefits.Tests.Services
                 new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
             };
 
-            this._mockEmployeeRepository = this._mockRepository.Create<IEmployeeRepository>(mockEmployees);
-            this._mockDependentRepository = this._mockRepository.Create<IDependentRepository>(mockDependents);
-            this._mockLogger = this._mockRepository.Create<ILogger<BenefitService>>();
+            _mockEmployeeRepository = _mockRepository.Create<IEmployeeRepository>(mockEmployees);
+            _mockDependentRepository = _mockRepository.Create<IDependentRepository>(mockDependents);
+            _mockLogger = _mockRepository.Create<ILogger<BenefitService>>();
         }
 
         private BenefitService CreateService()
         {
             return new BenefitService(
-                this._mockEmployeeRepository.Object,
-                this._mockDependentRepository.Object,
-                this._mockLogger.Object);
+                _mockEmployeeRepository.Object,
+                _mockDependentRepository.Object,
+                _mockLogger.Object);
         }
 
         [Test]
         public async Task GetBenefitsCost_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
-            int id = 0;
+            var service = CreateService();
+            int id = 1;
 
             // Act
             var result = await service.GetBenefitsCost(id);
@@ -66,7 +63,7 @@ namespace EmployeeBenefits.Tests.Services
 
             // Assert
             Assert.Fail();
-            this._mockRepository.VerifyAll();
+            _mockRepository.VerifyAll();
         }
     }
 }

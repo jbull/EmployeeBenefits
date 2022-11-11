@@ -15,21 +15,27 @@ namespace EmployeeBenefits.Tests.Services
         [SetUp]
         public void SetUp()
         {
-            this._mockRepository = new MockRepository(MockBehavior.Strict);
+            _mockRepository = new MockRepository(MockBehavior.Strict);
 
-            this._mockDependentRepository = this._mockRepository.Create<IDependentRepository>();
+            var mockDependents = new List<Dependent>
+            {
+                new() { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" },
+                new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
+            };
+
+            _mockDependentRepository = _mockRepository.Create<IDependentRepository>(mockDependents);
         }
 
         private DependentService CreateService()
         {
-            return new DependentService(this._mockDependentRepository.Object);
+            return new DependentService(_mockDependentRepository.Object);
         }
 
         [Test]
         public async Task GetDependents_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = CreateService();
             int id = 0;
 
             // Act
@@ -37,14 +43,14 @@ namespace EmployeeBenefits.Tests.Services
 
             // Assert
             Assert.Fail();
-            this._mockRepository.VerifyAll();
+            _mockRepository.VerifyAll();
         }
 
         [Test]
         public async Task GetDependentById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = CreateService();
             int id = 0;
 
             // Act
@@ -52,14 +58,14 @@ namespace EmployeeBenefits.Tests.Services
 
             // Assert
             Assert.Fail();
-            this._mockRepository.VerifyAll();
+            _mockRepository.VerifyAll();
         }
 
         [Test]
         public async Task AddOrUpdateDependent_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = CreateService();
             Dependent dependent = null;
 
             // Act
@@ -67,14 +73,14 @@ namespace EmployeeBenefits.Tests.Services
 
             // Assert
             Assert.Fail();
-            this._mockRepository.VerifyAll();
+            _mockRepository.VerifyAll();
         }
 
         [Test]
         public async Task DeleteDependent_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = CreateService();
             int id = 0;
 
             // Act
@@ -82,7 +88,7 @@ namespace EmployeeBenefits.Tests.Services
 
             // Assert
             Assert.Fail();
-            this._mockRepository.VerifyAll();
+            _mockRepository.VerifyAll();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace EmployeeBenefits.Tests.Repositories
                 .Options;
             _context = new ApplicationDbContext(options); 
             _context.Database.EnsureCreated();
+            _context.Database.EnsureDeleted();
 
             var mockEmployees = new List<Employee>
             {
@@ -41,7 +42,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task GetEmployees_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
+            var employeeRepository = CreateEmployeeRepository();
 
             // Act
             var result = await employeeRepository.GetEmployees();
@@ -54,7 +55,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task GetEmployeeById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
+            var employeeRepository = CreateEmployeeRepository();
             int id = 1;
 
             // Act
@@ -69,7 +70,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task AddOrUpdateEmployee_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
+            var employeeRepository = CreateEmployeeRepository();
 
             var employee = new Employee
             {
@@ -87,7 +88,7 @@ namespace EmployeeBenefits.Tests.Repositories
         public async Task DeleteEmployee_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
+            var employeeRepository = CreateEmployeeRepository();
             int id = 1;
 
             // Act
