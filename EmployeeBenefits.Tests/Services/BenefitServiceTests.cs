@@ -18,7 +18,7 @@ namespace EmployeeBenefits.Tests.Services
         [SetUp]
         public void SetUp()
         {
-            _mockRepository = new MockRepository(MockBehavior.Strict);
+            _mockRepository = new MockRepository(MockBehavior.Default);
 
             var mockEmployees = new List<Employee>
             {
@@ -31,8 +31,15 @@ namespace EmployeeBenefits.Tests.Services
                 new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
             };
 
-            _mockEmployeeRepository = _mockRepository.Create<IEmployeeRepository>(mockEmployees);
-            _mockDependentRepository = _mockRepository.Create<IDependentRepository>(mockDependents);
+            _mockEmployeeRepository = _mockRepository.Create<IEmployeeRepository>();
+            _mockEmployeeRepository.Setup(
+                x => x.GetEmployeeById(1)).ReturnsAsync(new Employee { Id = 1, FirstName = "Aaron", LastName = "Smith" });
+
+
+            _mockDependentRepository = _mockRepository.Create<IDependentRepository>();
+            _mockDependentRepository.Setup(
+                x => x.GetDependents(1)).ReturnsAsync(mockDependents);
+
             _mockLogger = _mockRepository.Create<ILogger<BenefitService>>();
         }
 
@@ -54,16 +61,12 @@ namespace EmployeeBenefits.Tests.Services
             // Act
             var result = await service.GetBenefitsCost(id);
 
-            Assert.AreEqual(1, result.Dependents);
-            Assert.AreEqual(1, result.YearlySalary);
-            Assert.AreEqual(1, result.CheckGrossPay);
-            Assert.AreEqual(1, result.YearlyCost);
-            Assert.AreEqual(1, result.CostPerCheck);
-            Assert.AreEqual(1, result.Discounts);
-
-            // Assert
-            Assert.Fail();
-            _mockRepository.VerifyAll();
+            Assert.AreEqual(2, result.Dependents);
+            Assert.AreEqual(52000.00, result.YearlySalary);
+            Assert.AreEqual(2000.00, result.CheckGrossPay);
+            Assert.AreEqual(1400.00, result.YearlyCost);
+            Assert.AreEqual(53.85, result.CostPerCheck);
+            Assert.AreEqual(100.00, result.Discounts);
         }
     }
 }

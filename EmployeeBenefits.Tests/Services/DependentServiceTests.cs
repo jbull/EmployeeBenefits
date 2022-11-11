@@ -23,7 +23,18 @@ namespace EmployeeBenefits.Tests.Services
                 new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
             };
 
-            _mockDependentRepository = _mockRepository.Create<IDependentRepository>(mockDependents);
+            _mockDependentRepository = _mockRepository.Create<IDependentRepository>();
+            _mockDependentRepository.Setup(
+                x => x.GetDependents(1)).ReturnsAsync(mockDependents);
+
+            _mockDependentRepository.Setup(
+                x => x.GetDependentById(1)).ReturnsAsync(new Dependent { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" });
+
+            _mockDependentRepository.Setup(
+                x => x.AddOrUpdateDependent(It.IsAny<Dependent>())).ReturnsAsync(new Dependent { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" });
+
+            _mockDependentRepository.Setup(x => x.DeleteDependent(1)).ReturnsAsync(true);
+
         }
 
         private DependentService CreateService()
@@ -36,14 +47,13 @@ namespace EmployeeBenefits.Tests.Services
         {
             // Arrange
             var service = CreateService();
-            int id = 0;
+            int id = 1;
 
             // Act
             var result = await service.GetDependents(id);
 
             // Assert
-            Assert.Fail();
-            _mockRepository.VerifyAll();
+            Assert.AreEqual(2, result.Count());
         }
 
         [Test]
@@ -51,14 +61,13 @@ namespace EmployeeBenefits.Tests.Services
         {
             // Arrange
             var service = CreateService();
-            int id = 0;
+            int id = 1;
 
             // Act
             var result = await service.GetDependentById(id);
 
             // Assert
-            Assert.Fail();
-            _mockRepository.VerifyAll();
+            Assert.AreEqual("Nancy", result.FirstName);
         }
 
         [Test]
@@ -66,14 +75,15 @@ namespace EmployeeBenefits.Tests.Services
         {
             // Arrange
             var service = CreateService();
-            Dependent dependent = null;
+
+            var dependent = new Dependent
+                { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" };
 
             // Act
             var result = await service.AddOrUpdateDependent(dependent);
 
             // Assert
-            Assert.Fail();
-            _mockRepository.VerifyAll();
+            Assert.AreEqual("Nancy", result.FirstName);
         }
 
         [Test]
@@ -81,14 +91,13 @@ namespace EmployeeBenefits.Tests.Services
         {
             // Arrange
             var service = CreateService();
-            int id = 0;
+            int id = 1;
 
             // Act
             var result = await service.DeleteDependent(id);
 
             // Assert
-            Assert.Fail();
-            _mockRepository.VerifyAll();
+            Assert.AreEqual(true, result);
         }
     }
 }
