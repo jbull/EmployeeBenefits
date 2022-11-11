@@ -1,66 +1,72 @@
-﻿using EmployeeBenefits.Data.Repositories.Interfaces;
+﻿using EmployeeBenefits.Data.Models;
+using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using EmployeeBenefits.Data.Models;
 
 namespace EmployeeBenefits.Tests.Services
 {
     [TestFixture]
     public class BenefitServiceTests
     {
-        private MockRepository mockRepository;
+        private MockRepository _mockRepository;
 
-        private Mock<IEmployeeRepository> mockEmployeeRepository;
-        private Mock<ILogger<BenefitService>> mockLogger;
+        private Mock<IEmployeeRepository> _mockEmployeeRepository;
+        private Mock<IDependentRepository> _mockDependentRepository;
+        private Mock<ILogger<BenefitService>> _mockLogger;
 
         [SetUp]
         public void SetUp()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-            
+            _mockRepository = new MockRepository(MockBehavior.Default);
+
             var mockEmployees = new List<Employee>
             {
-                new Employee { Id = 1, FirstName = "Aaron", LastName = "Smith" }
+                new() { Id = 1, FirstName = "Aaron", LastName = "Smith" }
             };
 
             var mockDependents = new List<Dependent>
             {
-                new Dependent
-                    { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" }
+                new() { EmployeeId = 1, DependentType = DependentType.Spouse, FirstName = "Nancy", LastName = "Smith" },
+                new() { EmployeeId = 1, DependentType = DependentType.Child, FirstName = "Junior", LastName = "Smith" }
             };
 
-            this.mockEmployeeRepository = this.mockRepository.Create<IEmployeeRepository>(mockEmployees);
-            this.mockLogger = this.mockRepository.Create<ILogger<BenefitService>>();
+            _mockEmployeeRepository = _mockRepository.Create<IEmployeeRepository>();
+            _mockEmployeeRepository.Setup(
+                x => x.GetEmployeeById(1)).ReturnsAsync(new Employee { Id = 1, FirstName = "Aaron", LastName = "Smith" });
+
+
+            _mockDependentRepository = _mockRepository.Create<IDependentRepository>();
+            _mockDependentRepository.Setup(
+                x => x.GetDependents(1)).ReturnsAsync(mockDependents);
+
+            _mockLogger = _mockRepository.Create<ILogger<BenefitService>>();
         }
 
         private BenefitService CreateService()
         {
             return new BenefitService(
-                this.mockEmployeeRepository.Object,
-                this.mockLogger.Object);
+                _mockEmployeeRepository.Object,
+                _mockDependentRepository.Object,
+                _mockLogger.Object);
         }
 
         [Test]
         public async Task GetBenefitsCost_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
-            int id = 0;
+            var service = CreateService();
+            int id = 1;
 
             // Act
             var result = await service.GetBenefitsCost(id);
 
-            Assert.AreEqual(1, result.Dependents);
-            Assert.AreEqual(1, result.YearlySalary);
-            Assert.AreEqual(1, result.CheckGrossPay);
-            Assert.AreEqual(1, result.YearlyCost);
-            Assert.AreEqual(1, result.CostPerCheck);
-            Assert.AreEqual(1, result.Discounts);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(2, result.Dependents);
+            Assert.AreEqual(52000.00, result.YearlySalary);
+            Assert.AreEqual(2000.00, result.CheckGrossPay);
+            Assert.AreEqual(1400.00, result.YearlyCost);
+            Assert.AreEqual(53.85, result.CostPerCheck);
+            Assert.AreEqual(100.00, result.Discounts);
         }
     }
 }

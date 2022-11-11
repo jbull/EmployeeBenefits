@@ -1,174 +1,101 @@
 ﻿using EmployeeBenefits.Data.Repositories;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using EmployeeBenefits.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeBenefits.Tests.Repositories
 {
     [TestFixture]
     public class EmployeeRepositoryTests
     {
-        private MockRepository mockRepository;
+        string dbName = $"EmpBenefits{DateTime.Now.ToFileTimeUtc()}";
+        
+        private DbContextOptions<ApplicationDbContext> options;
 
-        private Mock<ApplicationDbContext> mockApplicationDbContext;
+        protected ApplicationDbContext _context;
 
         [SetUp]
         public void SetUp()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
+            options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(dbName)
+                .Options;
+            _context = new ApplicationDbContext(options); 
+            _context.Database.EnsureCreated();
+            _context.Database.EnsureDeleted();
 
-            this.mockApplicationDbContext = this.mockRepository.Create<ApplicationDbContext>();
+            var mockEmployees = new List<Employee>
+            {
+                new() { Id = 1, FirstName = "Aaron", LastName = "Smith" },
+                new() { Id = 2, FirstName = "George", LastName = "Jones" }
+            };
+
+            _context.Employees.AddRange(mockEmployees);
+            _context.SaveChanges();
         }
 
         private EmployeeRepository CreateEmployeeRepository()
         {
-            return new EmployeeRepository(
-                this.mockApplicationDbContext.Object);
+            return new EmployeeRepository(_context);
         }
 
         [Test]
         public async Task GetEmployees_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
+            var employeeRepository = CreateEmployeeRepository();
 
             // Act
             var result = await employeeRepository.GetEmployees();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(2,result.Count());
         }
 
         [Test]
         public async Task GetEmployeeById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            int id = 0;
+            var employeeRepository = CreateEmployeeRepository();
+            int id = 1;
 
             // Act
-            var result = await employeeRepository.GetEmployeeById(
-                id);
+            var result = await employeeRepository.GetEmployeeById(id);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual("Aaron", result.FirstName);
         }
 
-        [Test]
-        public async Task GetEmployee_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            Expression predicate = null;
-
-            // Act
-            var result = await employeeRepository.GetEmployee(
-                predicate);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [Test]
-        public async Task FindEmployees_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            Expression predicate = null;
-
-            // Act
-            var result = await employeeRepository.FindEmployees(
-                predicate);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
 
         [Test]
         public async Task AddOrUpdateEmployee_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            Employee employee = null;
+            var employeeRepository = CreateEmployeeRepository();
+
+            var employee = new Employee
+            {
+                FirstName = "Peet", LastName = "Wilson"
+            };
 
             // Act
-            var result = await employeeRepository.AddOrUpdateEmployee(
-                employee);
+            var result = await employeeRepository.AddOrUpdateEmployee(employee);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual("Peet", result.FirstName);
         }
 
         [Test]
         public async Task DeleteEmployee_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            int id = 0;
+            var employeeRepository = CreateEmployeeRepository();
+            int id = 1;
 
             // Act
-            var result = await employeeRepository.DeleteEmployee(
-                id);
+            var result = await employeeRepository.DeleteEmployee(id);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [Test]
-        public async Task GetDependents_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            int id = 0;
-
-            // Act
-            var result = await employeeRepository.GetDependents(
-                id);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [Test]
-        public async Task AddOrUpdateDependent_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            Dependent dependent = null;
-
-            // Act
-            var result = await employeeRepository.AddOrUpdateDependent(
-                dependent);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [Test]
-        public async Task DeleteDependent_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var employeeRepository = this.CreateEmployeeRepository();
-            int id = 0;
-
-            // Act
-            var result = await employeeRepository.DeleteDependent(
-                id);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(true, result);
         }
     }
 }

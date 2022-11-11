@@ -1,9 +1,8 @@
 ﻿using EmployeeBenefits.Data.Models;
-using System.Linq.Expressions;
 
-namespace EmployeeBenefits.Data.Repositories.Interfaces
+namespace EmployeeBenefits.Data.Services.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeService
     {
         Task<IEnumerable<Employee>> GetEmployees();
 

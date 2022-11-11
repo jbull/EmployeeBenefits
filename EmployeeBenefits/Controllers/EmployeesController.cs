@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using EmployeeBenefits.Data.Models;
-using EmployeeBenefits.Data.Repositories.Interfaces;
 using EmployeeBenefits.Data.Models.Dto;
 using EmployeeBenefits.Data.Services.Interfaces;
 
@@ -11,17 +10,16 @@ namespace EmployeeBenefits.Api.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<EmployeesController> _logger;
+        private readonly IEmployeeService _employeeService;
         private readonly IBenefitService _benefitService;
 
-        public EmployeesController(IMapper mapper, ILogger<EmployeesController> logger, 
-            IEmployeeRepository employeeRepository, IBenefitService benefitService)
+        public EmployeesController(IMapper mapper, ILogger<EmployeesController> logger, IEmployeeService employeeService, IBenefitService benefitService)
         {
-            _employeeRepository = employeeRepository;
             _mapper = mapper;
             _logger = logger;
+            _employeeService = employeeService;
             _benefitService = benefitService;
         }
 
@@ -31,7 +29,7 @@ namespace EmployeeBenefits.Api.Controllers
         {
             try
             {
-                var employees = await _employeeRepository.GetEmployees();
+                var employees = await _employeeService.GetEmployees();
 
                 var empsToReturn = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
 
@@ -52,12 +50,7 @@ namespace EmployeeBenefits.Api.Controllers
         {
             try
             {
-                var employee = await _employeeRepository.GetEmployeeById(id);
-
-                if (employee == null)
-                {
-                    return NotFound();
-                }
+                var employee = await _employeeService.GetEmployeeById(id);
 
                 var empToReturn = _mapper.Map<EmployeeDto>(employee);
 
@@ -84,13 +77,13 @@ namespace EmployeeBenefits.Api.Controllers
         // POST: api/Employees
         [HttpPost]
         [Consumes("application/json")]
-        public async Task<ActionResult<EmployeeDto>> AddEmployee([FromBody] EmployeeDto employeeDto)
+        public async Task<ActionResult<EmployeeDto>> AddEmployee([FromBody] EmployeeAddDto employeeAddDto)
         {
             try
             {
-                var employee = _mapper.Map<Employee>(employeeDto);
+                var employee = _mapper.Map<Employee>(employeeAddDto);
 
-                var result = await _employeeRepository.AddOrUpdateEmployee(employee);
+                var result = await _employeeService.AddOrUpdateEmployee(employee);
 
                 var dataForReturn = _mapper.Map<EmployeeDto>(result);
 
@@ -119,7 +112,7 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 var employee = _mapper.Map<Employee>(employeeDto);
 
-                var result = await _employeeRepository.AddOrUpdateEmployee(employee);
+                var result = await _employeeService.AddOrUpdateEmployee(employee);
 
                 var dataForReturn = _mapper.Map<EmployeeDto>(result);
 
@@ -139,66 +132,7 @@ namespace EmployeeBenefits.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var result = await _employeeRepository.DeleteEmployee(id);
-
-            return NoContent();
-        }
-
- 
-        // DEPENDENTS
-
-        [HttpGet("dependents/{id}")]
-        public async Task<ActionResult<DependentDto>> GetDependents(int id)
-        {
-            try
-            {
-                var dependents = await _employeeRepository.GetDependents(id);
-
-                if (dependents == null)
-                {
-                    return NotFound();
-                }
-
-                var dataForReturn = _mapper.Map<IEnumerable<DependentDto>>(dependents);
-
-                return Ok(dataForReturn);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.ToString());
-                Console.WriteLine(e);
-                throw;
-            }
-
-        }
-
-        [HttpPost("dependents")]
-        [Consumes("application/json")]
-        public async Task<ActionResult<DependentDto>> AddDependent([FromBody] DependentDto dependentDto)
-        {
-            try
-            {
-                var dependent = _mapper.Map<Dependent>(dependentDto);
-
-                var result = await _employeeRepository.AddOrUpdateDependent(dependent);
-
-                var dataForReturn = _mapper.Map<DependentDto>(result);
-
-                return CreatedAtAction("GetEmployee", new { id = dataForReturn.Id }, dataForReturn);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.ToString());
-                Console.WriteLine(e);
-                throw;
-            }
-
-        }
-
-        [HttpDelete("depnendents/{id}")]
-        public async Task<IActionResult> DeleteDependent(int id)
-        {
-            var result = await _employeeRepository.DeleteDependent(id);
+            var result = await _employeeService.DeleteEmployee(id);
 
             return NoContent();
         }
