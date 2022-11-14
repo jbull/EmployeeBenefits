@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Models.Dto;
 using EmployeeBenefits.Data.Services.Interfaces;
+using System.Net;
 
 namespace EmployeeBenefits.Api.Controllers
 {
@@ -25,6 +26,9 @@ namespace EmployeeBenefits.Api.Controllers
 
         // GET: api/Employees
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<EmployeeDto>))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployees()
         {
             try
@@ -39,13 +43,17 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to get Employees");
             }
 
         }
 
         // GET: api/Employees/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(EmployeeDto))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<EmployeeDto>> GetEmployee(int id)
         {
             try
@@ -69,7 +77,8 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to get Employees");
             }
 
         }
@@ -77,6 +86,8 @@ namespace EmployeeBenefits.Api.Controllers
         // POST: api/Employees
         [HttpPost]
         [Consumes("application/json")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<EmployeeDto>> AddEmployee([FromBody] EmployeeAddDto employeeAddDto)
         {
             try
@@ -93,7 +104,8 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to Add Employees");
             }
 
         }
@@ -101,11 +113,13 @@ namespace EmployeeBenefits.Api.Controllers
         // PUT: api/Employees/5
         [HttpPut("{id}")]
         [Consumes("application/json")]
+        [ProducesResponseType(202)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeDto employeeDto)
         {
             if (id != employeeDto.Id)
             {
-                return BadRequest();
+                return BadRequest("Id is invalid or missing");
             }
 
             try
@@ -122,7 +136,8 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to Update Employees");
             }
 
         }
