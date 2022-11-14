@@ -31,10 +31,6 @@ export class EmployeeListComponent implements OnInit {
     this.loadData();
   }
 
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  //   this.dataSource.sort = this.sort;
-  // }
 
   private loadData() {
     this.loadingIndicator = true;
@@ -70,8 +66,12 @@ export class EmployeeListComponent implements OnInit {
     this.router.navigate([`employee-dependents/${id}`]);
   }
 
-  public deleteEmployee (employee?: EmployeeDto){
-    // TODO:
+  public deleteEmployee (employee: EmployeeDto){
+     this.employeeService.deleteEmployee(employee.id).subscribe(() => {
+     }, err => {
+        if(isDevMode())
+          console.log(err);
+     });
   }
 }
 

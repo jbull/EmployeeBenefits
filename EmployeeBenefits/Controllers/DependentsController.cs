@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using EmployeeBenefits.Data.Models;
 using EmployeeBenefits.Data.Models.Dto;
 using EmployeeBenefits.Data.Services.Interfaces;
+using System.Net;
 
 namespace EmployeeBenefits.Api.Controllers
 {
@@ -21,7 +22,10 @@ namespace EmployeeBenefits.Api.Controllers
             _dependentService = dependentService;
         }
 
-        [HttpGet("dependents/{id}")]
+        [HttpGet("list/{id}")]
+        [ProducesResponseType(200, Type = typeof(List<DependentDto>))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<DependentDto>> GetDependents(int id)
         {
             try
@@ -36,11 +40,15 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to Get Dependents");
             }
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type= typeof(DependentDto))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<DependentDto>> GetDependent(int id)
         {
             try
@@ -55,13 +63,17 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to Get Dependent");
             }
 
         }
 
-        [HttpPost("dependents")]
+        [HttpPost]
         [Consumes("application/json")]
+        [ProducesResponseType(201, Type = typeof(DependentDto))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
         public async Task<ActionResult<DependentDto>> AddDependent([FromBody] DependentAddDto dependentAddDto)
         {
             try
@@ -78,12 +90,13 @@ namespace EmployeeBenefits.Api.Controllers
             {
                 _logger.LogError(e.ToString());
                 Console.WriteLine(e);
-                throw;
+                //throw;
+                return BadRequest("Unable to Add Dependent");
             }
 
         }
 
-        [HttpDelete("depnendents/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDependent(int id)
         {
             var result = await _dependentService.DeleteDependent(id);

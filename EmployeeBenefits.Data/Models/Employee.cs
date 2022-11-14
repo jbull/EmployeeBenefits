@@ -2,6 +2,6 @@
 {
     public class Employee : BasePersonEntity
     {
-        public IList<Dependent>? Dependents { get; set; }
+        public virtual IList<Dependent>? Dependents { get; set; }
     }
 }
