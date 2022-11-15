@@ -37,7 +37,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(policyBuilder =>
     policyBuilder.AddDefaultPolicy(policy =>
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyHeader())
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
 );
 
 

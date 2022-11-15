@@ -116,6 +116,7 @@ export class EmployeeDependentsComponent implements OnInit {
   
   public deleteDependent(id: number) {
     this.employeeService.deleteDependent(id).subscribe(() => {
+      this.loadDependents();
     }, err => {
        if(isDevMode())
          console.log(err);
