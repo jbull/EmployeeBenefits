@@ -71,8 +71,8 @@ export class EmployeeDependentsComponent implements OnInit {
 
   private buildForm() {
     this.dependentForm = this.formBuilder.group({
-      firstName: [''],
-      lastName: [''],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
     });
   }
 
@@ -116,6 +116,7 @@ export class EmployeeDependentsComponent implements OnInit {
   
   public deleteDependent(id: number) {
     this.employeeService.deleteDependent(id).subscribe(() => {
+      this.loadDependents();
     }, err => {
        if(isDevMode())
          console.log(err);

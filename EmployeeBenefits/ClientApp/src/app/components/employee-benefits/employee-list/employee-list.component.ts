@@ -68,6 +68,7 @@ export class EmployeeListComponent implements OnInit {
 
   public deleteEmployee (employee: EmployeeDto){
      this.employeeService.deleteEmployee(employee.id).subscribe(() => {
+      this.loadData();
      }, err => {
         if(isDevMode())
           console.log(err);

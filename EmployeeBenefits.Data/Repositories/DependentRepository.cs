@@ -56,6 +56,8 @@ namespace EmployeeBenefits.Data.Repositories
 
                 _db.Dependents.Remove(dependent);
 
+                await _db.SaveChangesAsync();
+
                 return true;
             }
             catch (Exception e)
