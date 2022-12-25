@@ -1,5 +1,5 @@
 import { Component, Input, isDevMode, OnInit, ViewChild, AfterViewInit, } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
 import { Employee, EmployeeDto } from '../employee.models';
@@ -27,7 +27,10 @@ export class EditEmployeeComponent implements OnInit {
     this.route.params.subscribe(
       (params) => {
         let id = parseInt(params.id);
-        this.getEmployee(id);
+        if(!Number.isNaN(id)){
+          this.getEmployee(id);
+        }
+       
         this.isNewEmployee = Number.isNaN(id);
       }
     );
@@ -53,8 +56,8 @@ export class EditEmployeeComponent implements OnInit {
   private buildForm() {
     this.employeeForm = this.formBuilder.group({
       id:[''],
-      firstName: [''],
-      lastName: [''],
+      firstName: new FormControl('', Validators.required),
+      lastName: ['', Validators.required],
     });
   }
 
@@ -80,6 +83,16 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   public save() {
+    // if (!this.form?.submitted) {
+    //   // Causes validation to update.
+    //   this.form.onSubmit(null);
+    //   return;
+    // }
+
+    if (!this.employeeForm.valid){
+      return;
+    }
+
     const model = this.getEmployeeModel();
 
     if (this.isNewEmployee) {
@@ -91,6 +104,7 @@ export class EditEmployeeComponent implements OnInit {
         () => this.saveCompleted(model),
         error => this.onSaveFailed(error));
     }
+    
   }
 
   private getEmployeeModel(): EmployeeDto {
@@ -125,5 +139,8 @@ export class EditEmployeeComponent implements OnInit {
       console.log(error)
   }
 
+  public hasError(controlName: string, errorName: string) {
+    return this.employeeForm.controls[controlName]?.hasError(errorName);
+  }
 }
  

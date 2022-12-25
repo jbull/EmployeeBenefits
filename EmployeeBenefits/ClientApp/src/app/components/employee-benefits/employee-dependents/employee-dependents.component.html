@@ -15,7 +15,9 @@
         <input matInput formControlName="lastName" maxlength="50"/>
       </mat-form-field>
 
-      <button mat-flat-button class="add" type="submit" color="primary">Add</button>
+      <button mat-flat-button class="add" type="submit" 
+      [disabled]="!dependentForm.valid"
+       color="primary">Add</button>
 
     </div>
   </form>

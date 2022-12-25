@@ -71,8 +71,8 @@ export class EmployeeDependentsComponent implements OnInit {
 
   private buildForm() {
     this.dependentForm = this.formBuilder.group({
-      firstName: [''],
-      lastName: [''],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
     });
   }
 

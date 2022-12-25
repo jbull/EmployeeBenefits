@@ -13,18 +13,22 @@
                 <mat-form-field>
                   <mat-label>First Name</mat-label>
                   <input matInput formControlName="firstName" maxlength="50"/>
+                  <mat-error *ngIf="hasError('firstName', 'required')">First Name is required</mat-error>
                 </mat-form-field>
               </div>
               <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
                 <mat-form-field>
                   <mat-label>Last Name</mat-label>
                   <input matInput formControlName="lastName" maxlength="50"/>
+                  <mat-error *ngIf="hasError('lastName', 'required')">Last Name is required</mat-error>
                 </mat-form-field>
                 </div>  
             </form>
           </mat-card-content>
           <mat-card-actions align="start">
-            <button mat-flat-button type="submit" color="primary" (click)="save()">Save</button>
+            <button mat-flat-button type="submit" color="primary" 
+            [disabled]="!employeeForm.valid"
+            (click)="save()">Save</button>
           </mat-card-actions>
           <mat-card-footer></mat-card-footer>
         </mat-card>
